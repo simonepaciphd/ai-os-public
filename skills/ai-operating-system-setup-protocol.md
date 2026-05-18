@@ -1,6 +1,6 @@
 ---
 name: ai-operating-system-setup-protocol
-description: One-time bootstrap walkthrough for installing a public AI Operating System mirror — runs an intake interview to capture user-specific values, applies placeholder substitution across the library, and dispatches to the library-setup and library-connection skills to wire the result into Claude Code.
+description: One-time bootstrap walkthrough for installing a public AI Operating System mirror — runs an intake interview to capture user-specific values, applies placeholder substitution across the library, and dispatches to the library-setup and library-connection skills to wire the result into the chosen harness(es) (Claude Code, Codex CLI/IDE, or both).
 audience: public
 version: 0.1
 ---
@@ -11,8 +11,8 @@ A consumer-facing bootstrap procedure for an external user who has just received
 
 Composes with:
 
-- `skills-library-setup.md` — scaffolds the library structure (folders, registries, ledgers).
-- `skills-library-connection.md` — wires the library into the Claude Code harness (`~/.claude/`).
+- `skills-library-setup.md` — scaffolds the library structure (folders, registries, ledgers) and wires it into the chosen harness(es): Claude Code (`~/.claude/`), Codex (`~/.codex/` + `$HOME/.agents/skills/`), or both.
+- `skills-library-connection.md` — wires an active project to the library (project-local copy, symlink, or instruction-file pointer in `<project>/CLAUDE.md` / `AGENTS.md` / equivalent).
 - `about-governing-principles.md` — every shipped skill in the library references this; the user should read it before customizing.
 
 Governing principles: **user control** and **radical transparency** — see {{LIBRARY_ROOT}}/skills/about-governing-principles.md. The protocol never picks a path, name, or affiliation on the user's behalf; if the user does not have an answer for a given placeholder, it is marked `OPEN` and surfaced rather than filled in. Every value captured in Phase 1 and substituted in Phase 2 is recorded in a manifest the user keeps with the library.
@@ -46,7 +46,7 @@ Do not use when:
 3. **Snapshot before substitution.** Before Phase 2 runs, the library folder is duplicated (or version-controlled). Substitution is destructive in-place; the snapshot is the rollback path.
 4. **Manifest is canonical.** The substitution manifest, not the agent's memory, is the record of what was filled in with what. Future re-runs of this protocol diff against the manifest.
 5. **One root per run.** A single Phase 1 captures values for one library root. If the user wants to install multiple tiers (e.g., a `public/` mirror beside a `personal/` tier they will draft themselves), run the protocol once per tier, with a separate manifest each time.
-6. **Do not edit `~/.claude/` from this protocol.** Harness wiring is delegated to `skills-library-connection.md` (Phase 3). This protocol stops at the library boundary.
+6. **Do not edit harness config from this protocol.** Library-into-harness wiring is delegated to `skills-library-setup.md` Phase 4 (`~/.claude/` for Claude Code, `~/.codex/` + `$HOME/.agents/skills/` for Codex); project-to-library wiring is delegated to `skills-library-connection.md`. This protocol stops at the library boundary.
 7. **Identity layer is opt-in.** Phase 4 only runs if the user explicitly requests a personalized `CLAUDE.md`. The library is fully usable without it.
 
 ---
@@ -138,24 +138,24 @@ Goal: replace every `{{PLACEHOLDER}}` token across the library with the value ca
 
 ## Phase 3 — Wire to the harness
 
-Goal: register the library with the Claude Code harness so skills, personas, and agents become invocable.
+Goal: scaffold the library structure and register it with whichever harness(es) the user runs (Claude Code, Codex CLI/IDE, or both) so skills, personas, and agents become invocable. Multi-harness handling lives inside the dispatched skills, not in this protocol — there is no fork by harness here.
 
 **Do not implement the wiring in this protocol.** Two companion skills already specify the wiring contract:
 
-- **`skills-library-setup.md`** — scaffolds any missing structural pieces (folders, the active-projects ledger, the asset registry, the librarian subagent install).
-- **`skills-library-connection.md`** — wires the library into `~/.claude/` (slash commands, hooks, persona session-start, librarian agent install path).
+- **`skills-library-setup.md`** — scaffolds any missing structural pieces (folders, the active-projects ledger, the asset registry, the librarian subagent install) and, in its Phase 4, wires the library into the chosen harness(es). Its Phase 0 interview asks which harness(es); Phase 4 then writes the appropriate harness config (`~/.claude/settings.json` for Claude Code; `~/.codex/config.toml` + skill installs under `$HOME/.agents/skills/` for Codex).
+- **`skills-library-connection.md`** — wires an *active project* to the library: project-local copy under `<project>/.claude/skills/` (Claude Code), symlink, or instruction-file pointer in `<project>/CLAUDE.md` / `AGENTS.md` / `.cursorrules`. Multi-harness selection happens inside this skill's Phase 1 interview.
 
 **Action step:**
 
-1. Confirm the user has read the two companion skills (or is willing to dispatch them now without re-reading). Ask: *"Run `skills-library-setup` first, or skip if your library is already scaffolded?"*
+1. Confirm the user has read the two companion skills (or is willing to dispatch them now without re-reading). Ask: *"Run `skills-library-setup` first, or skip if your library is already scaffolded and harness-wired?"*
 
-2. If the user opts in: invoke `skills-library-setup.md` end-to-end. It writes its own artifacts; this protocol does not duplicate them.
+2. If the user opts in: invoke `skills-library-setup.md` end-to-end. It writes its own artifacts and handles harness wiring in its Phase 4; this protocol does not duplicate or branch on harness.
 
-3. Then invoke `skills-library-connection.md` end-to-end. It edits `~/.claude/settings.json`, installs slash commands, and registers the librarian.
+3. If an active project also needs to be wired to the library, invoke `skills-library-connection.md` end-to-end after setup completes. This is project-to-library wiring; harness-to-library wiring already happened in step 2.
 
-4. Both companion skills surface their own sign-off prompts. This protocol's role is dispatch + wait; it does not edit `~/.claude/` itself (Universal Rule 6).
+4. Both companion skills surface their own sign-off prompts. This protocol's role is dispatch + wait; it does not edit harness config itself (Universal Rule 6).
 
-**Interrupt back to user** after both companion skills return. Phase 3 is complete when the user confirms that at least one slash-command invocation works end-to-end (e.g., `/chief-of-staff` activates the persona).
+**Interrupt back to user** after both companion skills return. Phase 3 is complete when the user confirms that at least one skill or persona invocation works end-to-end on each chosen harness — e.g., `/chief-of-staff` activates the persona under Claude Code; description-match invocation of an installed skill works under Codex.
 
 ---
 
@@ -186,7 +186,7 @@ Goal: confirm the library is functional end to end before declaring setup comple
 
 1. **Skill resolution.** Ask the user to invoke a known shipped skill via the librarian (e.g., name `lit-review-protocol` to the librarian and confirm it resolves to a file). If the librarian fails to resolve, return to Phase 3 — `skills-library-connection.md` did not register correctly.
 
-2. **Persona activation.** Ask the user to invoke a persona via slash command. Confirm the session-start hook reads the persona file and the persona's stance is loaded. If the slash command does not activate, return to Phase 3.
+2. **Persona activation.** Confirm a persona's stance loads on each chosen harness. Under Claude Code, invoke via slash command (e.g., `/chief-of-staff`) and confirm the session-start hook reads the persona file. Under Codex, ask for work that should activate a persona-as-skill (e.g., "help me think through an engineering decision") and confirm the persona's stance is loaded by description match — Codex has no user-typed slash commands and no persona session-start hook; activation is implicit. If activation fails on either harness, return to Phase 3.
 
 3. **Placeholder residue check.** Re-run the `{{` grep over the library root. The only allowed hits are placeholders marked `OPEN` in the substitution manifest. Anything else is a Phase 2 miss; fix and update.
 

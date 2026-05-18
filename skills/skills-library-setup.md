@@ -28,8 +28,9 @@ Do **not** use this skill when a library already exists and the user only wants 
 1. `<library-root>/` — the library folder at the chosen path.
 2. `<library-root>/README.md` — the index: one row per skill with name, one-sentence purpose, trigger keywords, and relative path.
 3. `<library-root>/<starter-skill>.md` files — starter skills copied in, typically `skill-writing-protocol.md`, `project-setup.md`, plus any skills the user has already drafted.
-4. A "Skills" pointer block in the active project's `README.md` (and optionally in a harness-global config file) giving the library path so every agent instance can find it.
-5. If called from within a project: a row in `asset-registry.csv` for each starter skill copied in, and a row in `interaction-log.csv` for the setup session.
+4. Library install into each chosen harness skills path: `~/.claude/skills/` for Claude Code, `$HOME/.agents/skills/` for Codex.
+5. Codex connector wiring: `project_doc_fallback_filenames = ["CLAUDE.md"]` added to `~/.codex/config.toml` if Codex was a chosen harness.
+6. Optionally (if interview Q2 was yes), a library pointer in the harness-global config file (`~/.claude/CLAUDE.md` or `~/.codex/AGENTS.md`).
 
 ## Universal rules
 
@@ -64,7 +65,7 @@ Goal: pick an absolute path for the library root, with a backup strategy named.
 
 1. *"Should the library be available on every machine you use? If yes, we want a synced location (Dropbox, iCloud, OneDrive, or a git repo you clone everywhere)."*
 2. *"Do you want version history? A git repo gives you diffs and rollback; a cloud-synced folder gives you multi-device sync but only shallow history."*
-3. *"Does your harness expect skills in a specific path? Claude Code looks under `~/.claude/skills/`; other harnesses have their own conventions. If yes, either use that path directly or symlink from it to your chosen canonical location."*
+3. *"Does your harness expect skills in a specific path? Claude Code looks under `~/.claude/skills/`; Codex (CLI + IDE extensions) looks under `$HOME/.agents/skills/`. If yes, either use that path directly or symlink from it to your chosen canonical location."*
 4. *"For teams: is the library going in a shared git repo, a shared cloud folder, or an institutional drive? Who has write access? Is there a review requirement before skills are added?"*
 
 **Candidate locations — present as a numbered list with trade-offs:**
@@ -168,30 +169,29 @@ Goal: copy a small, deliberate set of skills into the library, with each row in 
 
 ---
 
-## Phase 4 — Wire the library into harnesses and projects
+## Phase 4 — Wire the library into the harness(es)
 
-Goal: close the loop so agents in the user's actual workflows can find the library without further prompting.
+Goal: install the library into each chosen harness so agents can find skills, personas, and (where supported) hooks without further prompting. Active-project wiring is the separate concern of `skills-library-connection.md`.
 
 **Interview checklist:**
 
-1. *"Which harness or harnesses should know about this library right now?"*
-2. *"Is there an active project that should immediately point at the library? If yes, what is the project root?"*
-3. *"Should we also add the library pointer to a harness-global config file (e.g., a top-level `CLAUDE.md` in your home directory) so future projects inherit it automatically?"*
+1. *"Which harness or harnesses should know about this library right now? Claude Code, Codex (CLI + IDE extensions: VS Code, Cursor, Windsurf, JetBrains), or both?"*
+2. *"Should we also add the library pointer to a harness-global config file (e.g., `~/.claude/CLAUDE.md` for Claude Code, `~/.codex/AGENTS.md` for Codex) so future projects inherit it automatically?"*
 
 **Action step:**
 
-1. If the harness has a skills path and you chose the hybrid location, symlink (or copy, per the Phase 1 decision) the canonical library into the harness path.
-2. Add a "Skills" block to the active project's `README.md`:
+1. **Install skills into each chosen harness's skills path.** For each harness named in the interview:
 
-   ```markdown
-   ## Skills
+   - **Claude Code.** Symlink (preferred, if Phase 1 chose hybrid) or copy the canonical library into `~/.claude/skills/`. Each skill must be a directory containing `SKILL.md` with YAML frontmatter (`name`, `description` minimum) — the format produced by Phase 2.5 if it ran.
+   - **Codex (CLI + IDE extensions).** Symlink (preferred — copying creates drift, requiring manual re-run of Phase 4 after any canonical edit) or copy the canonical library into `$HOME/.agents/skills/`. The cross-tool `.agents/` path is Codex's convention (not `.codex/skills/`). Same `SKILL.md` + frontmatter format as Claude Code; no format conversion needed.
+   - **Personas on Codex (P1 personas-as-skills).** Persona files that ship as `SKILL.md`-format directories under `personas/` ride the same install loop — the persona's frontmatter `description` doubles as the skill's invocation trigger, and Codex activates the persona's stance by description match.
 
-   - Library: `<library-root>`
-   - For any complex task, check the library first. If no skill fits, ask the user whether to create one before improvising.
-   ```
+2. **Register the connector layer with each chosen harness.** The library's `CLAUDE.md` files (root + per-tier) are the connector layer.
 
-3. If requested, add the same pointer to any global config file the harness reads.
-4. If this protocol was invoked from inside a project, register the library as a `reference` asset in `asset-registry.csv` with `creator = mixed` (the user chose, the skill built), and note each starter skill copied in.
+   - **Claude Code.** Automatic — Claude Code reads `~/.claude/CLAUDE.md` and walks `CLAUDE.md` files up from the project root.
+   - **Codex.** Codex's native connector filename is `AGENTS.md`. To make Codex read the existing `CLAUDE.md` files without duplication, add `project_doc_fallback_filenames = ["CLAUDE.md"]` to `~/.codex/config.toml`. **Ask for explicit sign-off before editing `~/.codex/config.toml`** — this skill stops short of writing harness config until the user approves.
+
+3. If interview Q2 was yes, add the library pointer to the chosen harness-global config file (`~/.claude/CLAUDE.md` for Claude Code; `~/.codex/AGENTS.md` for Codex), so future sessions inherit it automatically.
 
 ---
 
@@ -245,7 +245,7 @@ A first-time user of agentic AI, with one drafted skill for running qualitative 
 2. *Phase 1:* picks a hybrid location — canonical copy at `~/Dropbox/skills-library/`, symlinked to `~/.claude/skills/`.
 3. *Phase 2:* picks index-first because the library will stay small; scaffolds a flat `README.md` with a three-column table (skill, purpose, triggers).
 4. *Phase 3:* copies the interview skill in and appends a row. Declines to add the library's meta-skills for now because they want to read them first.
-5. *Phase 4:* adds a "Skills" block to the one active project pointing at `~/Dropbox/skills-library/`; declines a harness-global config entry for now.
+5. *Phase 4:* installs skills into `~/.claude/skills/` via symlink (Claude Code only — Codex not on this user's stack); declines a harness-global config entry for now.
 6. *Phase 5:* first invocation in that project does not surface the interview skill because the prompt used the word "qualitative" but the triggers only listed "interview"; adds "qualitative" and "semi-structured" to the triggers and re-runs. Works.
 
 Total time: about 45 minutes of user attention, mostly in Phases 1–2.

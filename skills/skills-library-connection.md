@@ -67,7 +67,7 @@ Goal: collect the facts that determine which wiring is lowest-friction.
 **Interview checklist:**
 
 1. *"Which harness is primary for this project — Claude Code, Codex, Cursor, Antigravity, web chat, other, or multiple? If multiple, which one does the heaviest work?"*
-2. *"Are the skills in your library stored as flat `.md` files, or as directories each containing a `SKILL.md` with YAML frontmatter (Claude Code's native format), or in some other structure?"*
+2. *"Are the skills in your library stored as flat `.md` files, or as directories each containing a `SKILL.md` with YAML frontmatter (the harness-shared format used by both Claude Code and Codex), or in some other structure?"*
 3. *"Is this project expected to ship as a replication package, or stay single-machine?"* Changes the default between pointer and copy.
 4. *"Are you the only agent user for this project, or will collaborators also run agents here?"* Collaborators change the default toward self-contained (copy) over pointer.
 
@@ -89,13 +89,13 @@ Goal: present three or four realistic options for the (harness × library-format
 
 **D. README Skills block only.** A `## Skills` section in the project `README.md`. Harness-agnostic. Treated as universal rule 2 — **always applied** regardless of which of A–C is also in place, as a permanent backstop.
 
-### Library-format caveat for Claude Code
+### Library-format caveat for Claude Code and Codex
 
-Claude Code's native skill discovery requires each skill to be a **directory** containing a `SKILL.md` with YAML frontmatter (at minimum a `description:` field). A library of flat `.md` files is not auto-invoked by the native mechanism even if copied into `.claude/skills/` — the files will sit there as reference material, but the harness will not surface them at task time.
+Both Claude Code and Codex (CLI + IDE extensions) require each skill to be a **directory** containing a `SKILL.md` with YAML frontmatter (at minimum `name` and `description` fields). The format is harness-shared — wrapping for one unlocks the other. A library of flat `.md` files is not auto-invoked by either harness's native mechanism even if copied into `.claude/skills/` or `$HOME/.agents/skills/` — the files will sit there as reference material, but neither harness will surface them at task time.
 
 Two responses:
 
-- **Accept the pointer pattern** (mechanism C): flat `.md` files stay where they are; the CLAUDE.md pointer tells agents to read them on demand. Lower setup cost; invocation friction is one explicit prompt read.
+- **Accept the pointer pattern** (mechanism C): flat `.md` files stay where they are; the `CLAUDE.md` or `AGENTS.md` pointer tells agents to read them on demand. Lower setup cost; invocation friction is one explicit prompt read.
 - **Wrap the library** (out of scope for this skill; handled by `skills-library-setup.md`): convert each `skill-name.md` into a `skill-name/SKILL.md` with minimum frontmatter. Then mechanism A or B applies normally. Higher one-time cost; auto-invocation afterward.
 
 Surface this trade-off explicitly. Do not silently wrap the library.
@@ -108,7 +108,9 @@ Surface this trade-off explicitly. Do not silently wrap the library.
 | Claude Code | Native (dirs + SKILL.md) | No | **B** (symlink), or **A** on Windows without Dev Mode | D |
 | Claude Code | Flat `.md` | Yes | **C** (CLAUDE.md pointer) + manual copy of the subset the project uses | D |
 | Claude Code | Flat `.md` | No | **C** (CLAUDE.md pointer) | D |
-| Codex | Any | Any | **C** (AGENTS.md pointer) | D |
+| Codex | Native (dirs + SKILL.md) | Yes | **A** (copy into `<project>/.agents/skills/`) | D |
+| Codex | Native (dirs + SKILL.md) | No | **B** (symlink), or **A** on Windows without Dev Mode | D |
+| Codex | Flat `.md` | Any | **C** (AGENTS.md pointer) | D |
 | Cursor | Native rule files | Any | **A** or **B** into `<project>/.cursor/rules/` | D |
 | Web chat / no-filesystem | Any | — | **D** only; user pastes skill content into the custom-instructions field | — |
 | Multiple harnesses | Any | Any | **C** for each harness's instruction file | D |
@@ -181,7 +183,7 @@ Goal: execute the chosen mechanism end to end, finishing with the universal READ
 
 ## Worked example
 
-Active project: a working paper at `{{PROJECT_ROOT}}` (e.g., `~/projects/some-paper/`). Harness: Claude Code. Library: `{{LIBRARY_ROOT}}` — flat `.md` files (not Claude-Code-native format). Replication-bound (the paper's online appendix is a slice of this project).
+Active project: a working paper at `{{PROJECT_ROOT}}` (e.g., `~/projects/some-paper/`). Harness: Claude Code. Library: `{{LIBRARY_ROOT}}` — flat `.md` files (not the harness-native SKILL.md format). Replication-bound (the paper's online appendix is a slice of this project).
 
 1. **Phase 0** — both paths confirmed; `README.md` present; no `.claude/` in the project; no `~/.claude/skills/`.
 2. **Phase 1** — primary harness Claude Code; library format flat; project replication-bound; single author. Harness evidence: none yet in project. Library evidence: flat `.md` files at the library root.
