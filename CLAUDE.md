@@ -14,7 +14,7 @@ Five personas ship in this tier. Each encodes a stable posture for a recurring t
 
 - `chief-of-staff` — session-default management persona; portfolio oversight, project monitoring, routing to specialized personas. Refuses substantive work.
 - `researcher` — senior-scholar collaborator; supports theory, design, empirics, interpretation. Refuses prose; refuses substantive decisions on the user's behalf.
-- `writer` — prose co-writer; preserves the user's voice, refuses substantive content changes. **Ships as a stub** — its voice-bearing skills (paper, op-ed, slide, lecture, grant, cover letter, reviewer response, voice-coherence) are deliberately excluded from the public mirror. The user must draft those protocols and wire them into their librarian to make this persona effective.
+- `writer` — prose co-writer; preserves the user's voice, refuses substantive content changes. **Ships as a stub** — its voice-bearing skills (paper, op-ed, slide, lecture, grant, cover letter, voice-coherence) are deliberately excluded from the public mirror. The user must draft those protocols and wire them into their librarian to make this persona effective.
 - `engineer` — technical infrastructure persona; codebases, build systems, the agentic OS itself. Refuses research substance and prose.
 - `teacher` — instructor-practice persona; course design, assignment design, lecture prep, pedagogical reflection. Refuses end-to-end completion of teaching tasks without user input. All six default skills are user-defined and not shipped in the public mirror.
 
@@ -37,7 +37,7 @@ This tier is a starter library. It is methodology and governance scaffolding to 
 
 The public mirror deliberately omits:
 
-- **Voice-bearing skills.** Paper-writing, op-ed, slide, lecture, grant, cover-letter, reviewer-response, and recommendation-letter protocols all encode the source author's specific prose voice. The `writer` persona ships as a stub for this reason — it can resist generic LLM cadences but cannot reach for protocol-grade writing skills until the user drafts their own.
+- **Voice-bearing skills.** Paper-writing, op-ed, slide, lecture, grant, cover-letter, and recommendation-letter protocols all encode the source author's specific prose voice. The `writer` persona ships as a stub for this reason — it can resist generic LLM cadences but cannot reach for protocol-grade writing skills until the user drafts their own. (The R&R response-memo protocol ships: its method is generic and its voice rule points the user at their *own* prior memos.)
 - **Project state.** The active-projects ledger, per-project stanzas, and decision logs are personal to the source library and not redistributed.
 - **User-specific identity.** Names, affiliations, fields, contact information, and the source author's personal connector layer at `~/.claude/CLAUDE.md` are not shipped. Use `skills/ai-operating-system-setup-protocol.md` Phase 4 to draft your own.
 - **In-progress or under-review artifacts.** Anything the source author considered live or unfinished at sanitization time is excluded.
