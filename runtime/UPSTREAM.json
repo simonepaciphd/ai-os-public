@@ -1,0 +1,89 @@
+{
+  "changes": [
+    "Generic operator mailbox and relaunch vocabulary",
+    "Public semantic contract identifier",
+    "Portable CLI recovery reference",
+    "LF line endings",
+    "Dynamic installed launcher path in receipts",
+    "Dependency-subset module description"
+  ],
+  "files": [
+    {
+      "distributed_sha256": "f489629ca61a8e0396ab2475e5e0b362eebadeb36f5a8da6389050b3982a9c82",
+      "path": "src/aios_native/__init__.py",
+      "upstream_sha256": "f489629ca61a8e0396ab2475e5e0b362eebadeb36f5a8da6389050b3982a9c82"
+    },
+    {
+      "distributed_sha256": "ecad24e5e59a17f948b6e462e5912932d6ec9f91b90bc3a7ec46919cc1b5993d",
+      "path": "src/aios_native/bookkeeping.py",
+      "upstream_sha256": "6386e980171338fab43fc207bd272423674ffdb3b30d3c39154029fd8266b9ca"
+    },
+    {
+      "distributed_sha256": "f72b32be4fd2337b66f9a38ba7a2f3e215b4b1df338ea3c37ffe1a51ec73db55",
+      "path": "src/aios_native/ingress.py",
+      "upstream_sha256": "e66b0fdabec3fd903aa2cdaaac54efe4b2c1d352f4a67aff5e3cd1cce3d1cc82"
+    },
+    {
+      "distributed_sha256": "c315df1e44bdf91ea4d4030dc10ffbae88e374a2550258dbf9d929188c4b4e13",
+      "path": "src/aios_native/hook_failure.py",
+      "upstream_sha256": "a6059040dbce96ac57c8bbdb6a95c9256c2c6acecf1117ed6f62c82f090b6f80"
+    },
+    {
+      "distributed_sha256": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17",
+      "path": "src/aios_native/model.py",
+      "upstream_sha256": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17"
+    },
+    {
+      "distributed_sha256": "5ebafad7d4a886f1381eac5bc2baaaec6dc6ed0d2ce912a5557fc1227b72836c",
+      "path": "src/aios_native/request_contract.py",
+      "upstream_sha256": "4d7334b712fb7bc0fd0e0d767ff62d335ea3c8a6fde572faadf1e6c307d1c3e9"
+    },
+    {
+      "distributed_sha256": "f8aa8625a4b8faba769b1fd2e2ddcef01795b90b640165d5b5732b77210c85f4",
+      "path": "src/aios_native/sharded.py",
+      "upstream_sha256": "f72367410156f631443ab8a1aaa21079d5e137974cf3796b89b67fba6d6b3ed6"
+    },
+    {
+      "distributed_sha256": "0696112c72fb84112422943838cf3575f8bd1c0c9a4f95d68058bd2fe5f88e6c",
+      "path": "src/aios_native/startup_intake.py",
+      "upstream_sha256": "dd305cb5d85122692e88d661bebe91314613a54e3b9bc4d824e398067dedc7f4"
+    },
+    {
+      "distributed_sha256": "4ea5defefc76171c913fd312e31d1fb06fa797f77a18608d6d8b3a205df9c162",
+      "path": "src/aios_core/__init__.py",
+      "upstream_sha256": "ca31c7892a65691779bdfd2efa79b5936165309a1fb91b660a1073155dbe2453"
+    },
+    {
+      "distributed_sha256": "ef83e9b0f5de45b598c59f0ea156ae95d919a9e46bce8a9d634b67511829f5ae",
+      "path": "src/aios_core/coord.py",
+      "upstream_sha256": "d88065c737e2f682d452cd3fbefdc816fba9bb6e88ec12e36d04ac32b9d8a21c"
+    },
+    {
+      "distributed_sha256": "caa2e82e719c45af504ffd537172e7739cb45c64134b65e4400ca3d331abe3f2",
+      "path": "src/aios_core/liveness.py",
+      "upstream_sha256": "caa2e82e719c45af504ffd537172e7739cb45c64134b65e4400ca3d331abe3f2"
+    },
+    {
+      "distributed_sha256": "a52fbee9e6f7eae5d4d9b263e8e14691b4e060614f9c8804d4a433cef5708359",
+      "path": "src/aios_core/events.py",
+      "upstream_sha256": "a52fbee9e6f7eae5d4d9b263e8e14691b4e060614f9c8804d4a433cef5708359"
+    },
+    {
+      "distributed_sha256": "ed88ef7cb725eb0e9244b95a02140cdab4ef4f120833268da0a09273c60fb128",
+      "path": "src/aios_core/store.py",
+      "upstream_sha256": "ed88ef7cb725eb0e9244b95a02140cdab4ef4f120833268da0a09273c60fb128"
+    },
+    {
+      "distributed_sha256": "522f18cb2ee13391b4517d7bae527255e2060ffed61b09af14e7fd05fd8c4a7c",
+      "path": "src/aios_core/replay.py",
+      "upstream_sha256": "522f18cb2ee13391b4517d7bae527255e2060ffed61b09af14e7fd05fd8c4a7c"
+    },
+    {
+      "distributed_sha256": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822",
+      "path": "src/aios_core/checkpoints.py",
+      "upstream_sha256": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822"
+    }
+  ],
+  "upstream_release": "idle-resume-20260915",
+  "version": "public-native-1"
+}

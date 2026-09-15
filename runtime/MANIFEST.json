@@ -1,0 +1,25 @@
+{
+  "files": {
+    "README.md": "17395047ee7767c9c668cb001f9bce9eb69950609282749e23ad06ea7942c9d8",
+    "UPSTREAM.json": "50a8533846632eb9442900f68b871cd77e21fddf1aca2b820be4bf5f65ce3dbd",
+    "aios.py": "c334684bfb31ebdcc6d1d7a9756fc044f389875b2bd0e79b921d187bb9c608f2",
+    "hook.ps1": "f4973985465ae041b0fbff3c3e616e46d23e020ad9f49570b5bc7b97882855b3",
+    "src/aios_core/__init__.py": "4ea5defefc76171c913fd312e31d1fb06fa797f77a18608d6d8b3a205df9c162",
+    "src/aios_core/checkpoints.py": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822",
+    "src/aios_core/coord.py": "ef83e9b0f5de45b598c59f0ea156ae95d919a9e46bce8a9d634b67511829f5ae",
+    "src/aios_core/events.py": "a52fbee9e6f7eae5d4d9b263e8e14691b4e060614f9c8804d4a433cef5708359",
+    "src/aios_core/liveness.py": "caa2e82e719c45af504ffd537172e7739cb45c64134b65e4400ca3d331abe3f2",
+    "src/aios_core/replay.py": "522f18cb2ee13391b4517d7bae527255e2060ffed61b09af14e7fd05fd8c4a7c",
+    "src/aios_core/store.py": "ed88ef7cb725eb0e9244b95a02140cdab4ef4f120833268da0a09273c60fb128",
+    "src/aios_native/__init__.py": "f489629ca61a8e0396ab2475e5e0b362eebadeb36f5a8da6389050b3982a9c82",
+    "src/aios_native/bookkeeping.py": "ecad24e5e59a17f948b6e462e5912932d6ec9f91b90bc3a7ec46919cc1b5993d",
+    "src/aios_native/hook_failure.py": "c315df1e44bdf91ea4d4030dc10ffbae88e374a2550258dbf9d929188c4b4e13",
+    "src/aios_native/ingress.py": "f72b32be4fd2337b66f9a38ba7a2f3e215b4b1df338ea3c37ffe1a51ec73db55",
+    "src/aios_native/model.py": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17",
+    "src/aios_native/request_contract.py": "5ebafad7d4a886f1381eac5bc2baaaec6dc6ed0d2ce912a5557fc1227b72836c",
+    "src/aios_native/sharded.py": "f8aa8625a4b8faba769b1fd2e2ddcef01795b90b640165d5b5732b77210c85f4",
+    "src/aios_native/startup_intake.py": "0696112c72fb84112422943838cf3575f8bd1c0c9a4f95d68058bd2fe5f88e6c",
+    "templates/SPEC.md": "6e4d2e4700e8aa12c6f2963cec70101c6f9c2a725367ed1617c0152e42916081"
+  },
+  "version": "public-native-1"
+}
