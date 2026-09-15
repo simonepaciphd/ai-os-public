@@ -1,5 +1,7 @@
 # Working with AI Agents
 
+v2.0 — September 15, 2026
+
 *A practical guide to my AI Operating System*
 
 A system for organizing AI-assisted work, from the first instruction to the final handoff.
@@ -12,13 +14,11 @@ The researcher retains authority over substantive decisions throughout the work.
 
 ### Radical transparency
 
-The AI-assisted process is documented so others can inspect its inputs, intermediate work, decisions, and outputs.
+The AI-assisted process is documented so the user and/or others can inspect its inputs, intermediate work, decisions, and outputs.
 
 For the fuller argument: [With Great Powers](https://simonepaciphd.github.io/with-great-powers/) · [Chapter draft linked from that page](https://www.dropbox.com/scl/fo/fhwo1steehsz9knhxkjmt/AKRke9Y-8cThLowew2Gw_Bs?dl=0&rlkey=i7etn98de7zvv0m5dej4amqg3&st=dj31kxv6).
 
 ## 02 · Best practices by design
-
-Each card shows its name and one-sentence definition. Clicking opens the bullets below.
 
 ### Harness design
 
@@ -48,8 +48,6 @@ Turn a goal into an agreed specification, implementation, verification, and hand
 - Record verification, open items, and the handoff in the project's AI OS workflow.
 
 ## 03 · The AI OS, at a glance
-
-Personal instructions guide the session. Project files preserve the work. Every component opens its short description.
 
 - Across your work → active task ↔ project space.
 - Events and agent submissions → coordination and bookkeeping.
@@ -157,13 +155,76 @@ Personal instructions guide the session. Project files preserve the work. Every 
 
 [Technical installation and recovery guide ↗](https://github.com/simonepaciphd/ai-os-public/blob/main/docs/setup-guides/native-bookkeeping-install.md)
 
-## 04 · The lifecycle of a task
+## 04 · How a project is structured
+
+Each project has a shared context, an overall plan, and a record of the work. The plan breaks the goal into tasks with outputs, dependencies, and deadlines. Gates mark decisions the user must make before dependent work continues.
+
+- Context: the project brief, instructions, sources, and data.
+- Project plan: the goal and completion criteria, task sequence, gates, and deadlines.
+- Project record: current progress, decisions, outputs, and their verification status.
+
+### Example project: data collection across multiple sources
+
+Illustrative schedule, 5 October–13 November 2026. Deliverable: one analysis-ready dataset and a replication package for the data collection pipeline.
+
+**Research question: provided by the user.**
+
+Operationalization: user inputs preferences → agent explores options → user selects.
+
+| Task | Schedule | Dependency | Output |
+| --- | --- | --- | --- |
+| T1 · Operationalization | Week 1, 5–9 Oct | User's research question and preferences | Selected operationalization and collection plan |
+| T2a / T2b / T2c · Collect sources A / B / C in parallel | Weeks 2–3, 12–23 Oct | G1 | Source data, provenance, and descriptive summaries |
+| T3a / T3b / T3c · Clean each source | Week 4, 26–30 Oct | Collection of the corresponding source | Cleaned datasets, scripts, and checks |
+| T4 · Merge sources | Week 5, 2–6 Nov | All cleaned sources and G2 | One analysis-ready dataset |
+| T5 · Replication package | Week 6, 9–13 Nov | T4 | Reproducible collection pipeline, ready for analysis |
+
+### User decision gates
+
+- **G1 · 9 Oct: select the operationalization.** The user selects measures and sources from the options the agent explored.
+- **G2 · 30 Oct: review cleaning and merge rules.** Review each source's checks and resolve choices about how the sources will be combined.
+- **G3 · 13 Nov: accept the replication package.** Review the reproducibility checks and analysis-ready dataset before analysis begins.
+
+### T1 · Operationalization
+
+- Start from the research question provided by the user.
+- The user supplies preferences; the agent explores measurement and source options; the user selects.
+- Output: the selected operationalization and data collection plan.
+- Due 9 October. Gate G1: record the user's selection before collection begins.
+
+### T2 · Data collection, for each source
+
+- Source and collect the data required by the selected operationalization.
+- Run descriptive analysis of each source to understand coverage, distributions, and missingness.
+- Output: source data, provenance, and descriptive summaries. Source A, B, and C are illustrative parallel workstreams.
+- Due 23 October. Each source passes to its own cleaning task.
+
+### T3 · Data cleaning, for each source
+
+- Clean each source separately, using documented rules and preserving its original data.
+- Record transformations, source-specific checks, and unresolved choices.
+- Output: a cleaned dataset and cleaning script for each source.
+- Due 30 October. Gate G2: review checks and agree merge rules before combining sources.
+
+### T4 · Merge into one dataset
+
+- Combine the cleaned sources using the agreed merge rules.
+- Check joins, unmatched records, and the structure of the resulting dataset.
+- Output: one analysis-ready dataset, with a record of how each source contributes.
+- Due 6 November. The dataset and pipeline pass to T5 for packaging.
+
+### T5 · Replication package
+
+- Package the sourcing, descriptive analysis, cleaning, and merging steps with their code and instructions.
+- Check that the documented pipeline reproduces the analysis-ready dataset from the permitted inputs.
+- Output: a replication package for the data collection pipeline, with requirements and any access restrictions documented.
+- Due 13 November. Gate G3: the user reviews the checks and accepts the package as ready for analysis.
+
+## 05 · The lifecycle of a task
 
 **One session, one task.** Example: update a literature table.
 
 Start the task → agree the spec → plan and gate → implement → verify → close and hand off.
-
-Failed checks return to implementation. A change in scope returns to the specification.
 
 ### Start the task
 
@@ -213,7 +274,7 @@ Failed checks return to implementation. A change in scope returns to the specifi
 
 *Literature-table example:* Leave the updated table, its verification status, and a short list of unresolved sources for the next task.
 
-## 05 · Make it your own
+## 06 · Make it your own
 
 ### Start with the library
 
@@ -231,12 +292,11 @@ Failed checks return to implementation. A change in scope returns to the specifi
 
 [Open the installation guide](https://github.com/simonepaciphd/ai-os-public/blob/main/docs/setup-guides/native-bookkeeping-install.md).
 
-The map describes the overall setup. The public library and runtime provide building blocks to customize; personal project state and writing protocols are supplied by each user. The installer requires Python 3.11+ and Git.
-
 ### Current release scope
 
 - Public skills, five personas, a librarian, and a project-level bookkeeping installer.
-- Local operation by one user; personal identity and project contents are supplied separately.
+- Local operation by one user; personal identity, project contents, and writing protocols are supplied separately.
+- The installer requires Python 3.11+ and Git.
 - Automated package tests passed on Windows. Real Claude/Codex interface delivery and macOS/Linux installation remain unverified in the release evidence.
 - The installer guide includes checks for registration, checkpoints, and closeout on your own setup.
 
