@@ -27,7 +27,7 @@ END = "<!-- AIOS NATIVE END -->"
 ASSET_FIELDS = ["asset_path", "asset_type", "creator", "created", "last_modified",
                 "verification", "ai_output_hash", "model_metadata", "notes"]
 LOG_FIELDS = ["date", "session_id", "harness", "model", "researcher_input_summary",
-              "agent_output_summary", "assets_affected"]
+              "agent_output_summary", "assets_affected", "notes", "initiator", "task_difficulty", "decisions"]
 
 
 def encoded(value):
@@ -194,6 +194,8 @@ def build_plan(args):
     slug = args.slug or project.name.lower().replace(" ", "-")
     if not re.fullmatch(r"[a-z0-9][a-z0-9_-]{0,79}", slug):
         raise ValueError("Project slug must use lowercase letters, digits, hyphens or underscores")
+    if slug == "ai-os-system":
+        raise ValueError("ai-os-system is reserved for the installation root")
     config_path = root / "config/ownership.json"
     previous = json.loads(config_path.read_text(encoding="utf-8-sig")) if config_path.exists() else None
     default_state = Path.home() / ".local/state/ai-os" / hashlib.sha256(str(root).encode()).hexdigest()[:12]
@@ -215,6 +217,8 @@ def build_plan(args):
                           "os_root": str(root), "state_root": str(state),
                           "python_executable": sys.executable, "projects": {}}
     for other, value in config["projects"].items():
+        if not value.get("provenance", True):
+            continue
         other_root = Path(value["root"])
         if other != slug and (project.is_relative_to(other_root) or other_root.is_relative_to(project)):
             raise ValueError("Project overlaps an existing registered project")
@@ -222,6 +226,10 @@ def build_plan(args):
     if slug in config["projects"] and config["projects"][slug] != target:
         raise ValueError("Project slug is already bound to a different configuration")
     config["projects"][slug] = target
+    system = {"root":str(root), "worktrees":[], "provenance":False}
+    if "ai-os-system" in config["projects"] and config["projects"]["ai-os-system"] != system:
+        raise ValueError("Conflicting installation-root mapping")
+    config["projects"]["ai-os-system"] = system
     # Do not reconfigure an installation while its native sessions hold work.
     for p in (state / "activations").glob("*.json"):
         if json.loads(p.read_bytes()).get("status") == "active":
@@ -252,6 +260,12 @@ def build_plan(args):
         plan.put(spec, (PACKAGE / "runtime/templates/SPEC.md").read_bytes())
     if not (root / "coord/BOARD.md").exists():
         plan.put(root / "coord/BOARD.md", b"# Coordination notices\n")
+    index = root / "memory/projects-ledger.md"
+    if not index.exists():
+        plan.put(index, b"# Projects ledger\n\n## Active projects\n\n| name | category | subtype | life_stage | priority | last_session | next_milestone |\n|---|---|---|---|---|---|---|\n")
+    template = root / "memory/projects-ledger/_template.md"
+    if not template.exists():
+        plan.put(template, b"# Project registration\n\nUse the native register-project preflight/apply operation to create project stanzas.\n")
     ledger(plan, project / "asset-registry.csv", ASSET_FIELDS)
     ledger(plan, project / "interaction-log.csv", LOG_FIELDS)
     local_note = project / ".aios/native.md"
@@ -280,7 +294,7 @@ def build_plan(args):
     for harness in harnesses:
         hook_config(plan, project, root, harness)
     for base, lines in [(project, [".cowork/", ".aios/", ".claude/settings.local.json", ".codex/hooks.json"]),
-                        (root, ["config/", "coord/sessions/", "coord/mailbox/", "coord/control/", "coord/inbox/"])]:
+                        (root, ["config/", "memory/", "coord/sessions/", "coord/mailbox/", "coord/control/", "coord/inbox/"])]:
         path = base / ".gitignore"
         before = (read(path) or b"").decode("utf-8-sig")
         missing = [x for x in lines if x not in before.splitlines()]

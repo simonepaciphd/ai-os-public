@@ -60,7 +60,10 @@ def collect(bk: Bookkeeper, *, native_id: str, harness: str, cwd: Path,
         raise Refused('invalid-intake-page-size')
     bk.ownership()
     alias = bk.root / 'aliases' / (digest((harness+':'+native_id).encode())+'.json')
-    activation = json.loads(_bounded(alias))['activation']
+    try:
+        activation = json.loads(_bounded(alias))['activation']
+    except FileNotFoundError:
+        raise Refused('native-not-yet-admitted') from None
     state = bk._session(activation)
     if state['native_id'] != native_id or state['harness'] != harness:
         raise Refused('native-identity-mismatch')

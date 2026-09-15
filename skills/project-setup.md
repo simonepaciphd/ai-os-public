@@ -7,6 +7,11 @@ version: 0.1
 
 # Project Setup Protocol
 
+## Registration-only route
+
+For “Register this existing project: [path]”, use `project-registration.md`. The receiving task completes mechanical registration without restructuring or repeated persona handoffs. The interviews below apply to requested scaffolding or retrofit work.
+
+
 This file is both a **template** and a **setup instruction** for agentic AI tools working in a research project. Copy it into a new project folder and either (a) fill in the bracketed placeholders manually and rename to `README.md`, or (b) invoke an agent with "run the project-setup protocol" to scaffold the folder semi-automatically.
 
 Governing principles: **user control** and **radical transparency** — see `{{LIBRARY_ROOT}}/skills/about-governing-principles.md`. Humans retain all key decisions; provenance and verification are tracked for every asset.
@@ -23,7 +28,7 @@ When asked to run this protocol, an agent should:
 4. Generate `implementation-roadmap.md` by translating the user's outline / plan into a checkable to-do list.
 5. Generate `asset-registry.csv` and `interaction-log.csv` with the schemas specified below. Pre-populate the registry with any files already present in the folder.
 6. **Wire the project to the skills library.** If the user has an existing library, dispatch to `skills-library-connection.md` to pick the lowest-friction wiring (harness-native copy/symlink, instruction-file pointer, or README-only) for the (harness × library-format) pair. If no library exists, dispatch to `skills-library-setup.md` first, then to `skills-library-connection.md`.
-7. **Register the project in the active ledger.** Generate a `slug` from the project title (lowercase ASCII kebab-case; numbers preserved). Append a row to the user's active ledger at `{{LEDGER_PATH}}` (typically `{{LIBRARY_ROOT}}/memory/projects-ledger.md`) populated from Step 1 answers and this setup's results: `name`, `category`, `subtype` (one-word free text — typically the project type), `life_stage: seed`, `priority: <TO FILL>`, `last_session: today's date`, `next_milestone: <TO FILL>`. If the user maintains per-project stanzas in a `projects-ledger/` directory, copy the user's stanza template (often `_template.md`) to `projects-ledger/<slug>.md` and fill the frontmatter (`name`, `slug`, `path`, `category`, `subtype`, `audience_tier`, `created` and `last_ledger_update` both set to today) and the Identification section (path, category/subtype, canonical files all `✓` post-setup, skill library wired = `yes`, any external integrations from the user's answers). State section: `life_stage: seed`, `last_session_date: today`, all other state fields `<TO FILL>`. Collaboration section: ask the user for `coauthors` (or default `solo`) and `ra_assignments` (or default `none`). Append a `YYYY-MM-DD — initial registration via project-setup.md` line to the stanza's Update log. Inform the user that the operational state fields (`priority`, `current_phase`, `next_milestone`, `deadline`, `blocker`, `primary_persona`) are theirs to fill when ready.
+7. **Register the created project.** Use `project-registration.md` with the title/category/subtype already established. If native bookkeeping is installed, use its `register-project` preflight/apply operation and preserve the actual conversation/cwd binding; do not manually duplicate native-owned ledger writes.
 8. Report the final structure back to the user and confirm before proceeding to substantive work. Surface the new ledger row and stanza path.
 
 ---
@@ -126,7 +131,10 @@ Every major asset is tracked in `asset-registry.csv`. Schema:
 | `verification` | not-verified \| partially-verified \| human-verified |
 | `notes` | Free text (purpose, known issues, review status) |
 
-Agents must append a row when creating a new asset and update `last_modified` + `verification` on substantive edits.
+Where native bookkeeping is installed, submit asset metadata to its writer for
+registry publication and snapshots; do not manually edit native-owned rows.
+Otherwise append a row when creating an asset and update `last_modified` +
+`verification` on substantive edits.
 
 ## Interaction Log
 
@@ -142,6 +150,12 @@ Every non-trivial user-agent session is logged in `interaction-log.csv`. Schema:
 | `agent_output_summary` | 1–2 sentences |
 | `assets_affected` | Comma-separated paths (match `asset-registry.csv`) |
 | `notes` | Free text |
+| `initiator` | human or agent; leave unknown values empty |
+| `task_difficulty` | Optional task classification; leave unknown values empty |
+| `decisions` | Explicit decisions, if any |
+
+These columns form the native-compatible schema. Native installations publish
+session rows through checkpoint/close requests; do not append duplicate rows.
 
 Optional: for reproducibility-critical projects, consider cryptographic attestation of log entries (see Gordon, Samii, Su — Data-NoMad, arxiv).
 

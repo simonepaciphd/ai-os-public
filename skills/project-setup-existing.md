@@ -7,6 +7,11 @@ version: 0.1
 
 # Project Setup Protocol — Existing Projects
 
+## Registration-only route
+
+For “Register this existing project: [path]”, use `project-registration.md`. The receiving task completes mechanical registration without restructuring or repeated persona handoffs. The interviews below apply to requested scaffolding or retrofit work.
+
+
 Companion to `project-setup.md`. Use this skill when a user wants to bring agentic workflow into a project that is **already underway** — folders exist, files have accumulated, sometimes years of history are on disk — and starting from the blank template is not an option. The skill inventories what is already there, lays out three retrofit depths (full restructure / selective additions / minimal adoption), and produces a concrete move list the user signs off on before any file is touched.
 
 Governing principles: **user control** and **radical transparency** — see `{{LIBRARY_ROOT}}/skills/about-governing-principles.md`. No rename, move, or deletion without explicit sign-off; the existing state is documented before anything changes; every retrofit move is itself logged.
@@ -188,26 +193,9 @@ Goal: make the skill library discoverable from this project, at the lowest invoc
 
 ---
 
-## Phase 7 — Register in the active ledger
+## Phase 7 — Register the existing project
 
-Goal: surface the retrofitted project in the user's ledger at `{{LEDGER_PATH}}` so portfolio-management personas (chief-of-staff or equivalent) know it exists.
-
-**Action step:**
-
-1. Generate a `slug` from the project name (lowercase ASCII kebab-case; numbers preserved).
-2. Append a row to the user's active ledger at `{{LEDGER_PATH}}` (typically `{{LIBRARY_ROOT}}/memory/projects-ledger.md`). Populate from this session's findings and Phase 0 answers:
-   - `name`, `category`, `subtype` — from Phase 0 question 5.
-   - `life_stage` — operational call by the user, not the structural signal alone. Default to `active` if Phase 1 inventory shows recent activity (last_modified within ~30 days); ask the user otherwise.
-   - `priority`, `next_milestone` — `<TO FILL>` (user decides).
-   - `last_session` — the most recent file mtime from Phase 1, or today's date if the retrofit itself counts as a session.
-3. If the user maintains per-project stanzas in a `projects-ledger/` directory, copy the user's stanza template (often `_template.md`) to `projects-ledger/<slug>.md`. Fill:
-   - **Frontmatter:** `name`, `slug`, `path`, `category`, `subtype`, `audience_tier` (per the user's tiering), `created` from earliest file mtime if available else `<TO FILL>`, `last_ledger_update: today`.
-   - **Identification:** path, category/subtype, canonical files reflecting the retrofit's outcome (post Phase 4), skill library wired = `yes` after Phase 6, external integrations from user answers.
-   - **State:** `life_stage` from step 2 above, `last_session_date` from step 2, all other state fields `<TO FILL>`.
-   - **Collaboration:** `coauthors` from user answer (or `solo`); `ra_assignments` from observed `Research Assistants/RA_*` paths if any (one line per RA: `RA_FolderName — 1-line task scope`), else `none`.
-   - **Notes:** one short paragraph noting that the project was retrofitted via `project-setup-existing.md` Option A/B/C and the trigger from Phase 0.
-4. Append a `YYYY-MM-DD — initial registration via project-setup-existing.md (Option <A|B|C>)` line to the stanza's Update log.
-5. Tell the user the row + stanza are in place and remind them to fill the operational state fields when ready.
+Use `project-registration.md` to finish the mapping, ledger, admission and publication checks, reusing the facts and decisions from this retrofit. Keep the actual conversation/cwd binding. The receiving task owns completion.
 
 ---
 

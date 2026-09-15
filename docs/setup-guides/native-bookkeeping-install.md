@@ -10,7 +10,7 @@ It makes no provider calls and requires no Python packages.
 - Python 3.11 or newer and Git, both available in your terminal.
 - A current Claude Code or Codex installation with the documented hook interface.
 - An existing project folder you own.
-- Close that project's agent sessions before installing or adding another project.
+- Close active installation sessions before running the installer or changing hooks.
 
 ## Install
 
@@ -36,8 +36,9 @@ No administrator privileges, package installation, global harness edits or API k
 are needed. Existing unrelated hook handlers, permission settings and instructions
 are preserved. The installer refuses incompatible ledgers, an existing conflicting
 project-level AI OS installation, changed managed files, and active native sessions. Repeating
-the same install after sessions close is a no-op. Add another project with another
---project and --slug after closing active sessions.
+the same install after sessions close is a no-op. To register another folder, use
+the registration workflow below. To add its project-local lifecycle hooks, run
+the installer with its --project and --slug after closing active sessions.
 
 The installer prints the installed runtime path. Keep that location stable.
 It records the Python executable used for installation; changing or removing that
@@ -50,6 +51,7 @@ Python installation requires a reviewed reconfiguration.
 | Installation runtime/ | Manifest-verified standard-library runtime. |
 | Installation config/ownership.json | Generated paths, project selection, runtime ownership and state format. |
 | Installation coord/ | Coordination specification, board, controls, sessions and operator mailbox. |
+| Installation memory/projects-ledger.md and memory/projects-ledger/ | Private portfolio index and project records, ignored by Git. |
 | Project .claude/settings.local.json | Claude lifecycle handlers, using executable/argument form. |
 | Project .codex/hooks.json | Codex lifecycle handlers. Windows uses the supplied PowerShell launcher. |
 | Project .aios/native.md | Machine-specific agent instructions, ignored by Git. |
@@ -90,6 +92,27 @@ it does not prove that your harness actually delivers hooks.
 A CLI-simulated event is not evidence of host delivery. Interrupted, unsupported,
 disabled or untrusted hooks must remain explicit gaps. A stopped response does
 not necessarily end the native session.
+
+## Register an existing folder
+
+Say **“Register this existing project: [path].”** Follow
+[project-registration](../../skills/project-registration.md) for the supported
+`register-project` preflight/apply operation, retry rules and delayed artifact logging.
+The receiving task completes the authorized bookkeeping; restructuring remains a
+separate setup request. Unknown planning metadata stays `PENDING`.
+
+Invoke the installed runtime by absolute path from the actual task cwd. A task
+at the AI OS root retains its `ai-os-system` binding; a task in the new project
+can be admitted to that project. Never substitute the target path for the actual
+cwd or conversation identity. The installer reserves `ai-os-system` for the
+coordination-only root.
+
+Preflight reports mappings, ledger state, missing project files, conflicts and
+proposed writes. Apply requires that exact preflight token. Configuration,
+admission, local publication and actual host receipt delivery are reported
+separately. `native-not-yet-admitted` means the conversation has no admission
+alias; it does not establish a deployment failure. Registration does not install
+project-local hooks or prove that the host delivers them.
 
 ## Semantic checkpoints
 

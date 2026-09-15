@@ -170,6 +170,7 @@ def main(argv=None):
         bk = Bookkeeper(args.config)
         if args.intake:
             from .startup_intake import collect
+            stage = "intake"
             if not args.workspace or args.request or args.close_activation:
                 raise Refused("invalid-intake-invocation")
             result=collect(bk,native_id=args.native_id,harness=args.harness,cwd=args.workspace,
@@ -200,6 +201,13 @@ def main(argv=None):
             stage = "native-routing"
             request = hook_request(bk, payload, args.harness)
         stage = "bookkeeping"
+        if isinstance(request,dict) and request.get('operation') == 'register-project':
+            validate_request(request)
+            from .registration import execute as register_project
+            stage = 'registration'
+            result = register_project(bk, request)
+            print(json.dumps(result, sort_keys=True))
+            return 2 if result.get('conflicts') else 0
         # Ordinary hooks have a 30-second native deadline and may arrive in
         # parallel. Preserve the short budget of the 3-second close hooks.
         lock_timeout = 2 if event in {"SessionEnd", "Interrupt"} else 20
@@ -231,6 +239,18 @@ def main(argv=None):
         print(json.dumps(result, sort_keys=True))
         return 0
     except (Refused, WriterBusy, OSError, ValueError, KeyError, TypeError) as exc:
+        if stage == 'registration':
+            # All refusal messages are code-owned classifications, never bodies.
+            code = str(exc).split(':',1)[0] if isinstance(exc,Refused) else type(exc).__name__
+            print(json.dumps({'continue':False,'classification':code,'stage':stage,
+                'publication':'unknown; inspect same registration key',
+                'action':'Correct conflicts; repeat preflight if nothing was applied. Retry the exact apply request to recover a prepared publication; never replay research work.'}))
+            return 2
+        if args.intake and isinstance(exc,Refused) and str(exc) == 'native-not-yet-admitted':
+            print(json.dumps({'read_only':True,'admission':'not-yet-admitted','effects':False,
+                'classification':'native-not-yet-admitted','publication':'not-attempted',
+                'action':'No admission alias exists for this conversation. Register the existing project if mapping is missing; otherwise use explicit native admission with the actual conversation id and cwd. This result does not diagnose deployment failure.'}))
+            return 2
         if event is None and isinstance(exc,Refused) and str(exc) in {'integration-disabled','ownership-changed','harness-required'}:
             reason='AI OS: '+str(exc)
             print(json.dumps({'continue':False,'stopReason':reason}),flush=True)

@@ -5,7 +5,10 @@
     "Portable CLI recovery reference",
     "LF line endings",
     "Dynamic installed launcher path in receipts",
-    "Dependency-subset module description"
+    "Dependency-subset module description",
+    "Existing-folder registration with portable memory/projects-ledger paths",
+    "Source-attributed delayed logging and stable artifact checks",
+    "Explicit not-yet-admitted Intake diagnosis"
   ],
   "files": [
     {
@@ -19,9 +22,9 @@
       "upstream_sha256": "6386e980171338fab43fc207bd272423674ffdb3b30d3c39154029fd8266b9ca"
     },
     {
-      "distributed_sha256": "f72b32be4fd2337b66f9a38ba7a2f3e215b4b1df338ea3c37ffe1a51ec73db55",
+      "distributed_sha256": "addc9d68ba1d007f2c902bf5813226ae787e6bd28b10b0493d9b5f14e84ab55c",
       "path": "src/aios_native/ingress.py",
-      "upstream_sha256": "e66b0fdabec3fd903aa2cdaaac54efe4b2c1d352f4a67aff5e3cd1cce3d1cc82"
+      "upstream_sha256": "793614d1621e2f3dfe5fa4732b250fbfb2933571170aa131a125eea860a42fba"
     },
     {
       "distributed_sha256": "c315df1e44bdf91ea4d4030dc10ffbae88e374a2550258dbf9d929188c4b4e13",
@@ -34,9 +37,9 @@
       "upstream_sha256": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17"
     },
     {
-      "distributed_sha256": "5ebafad7d4a886f1381eac5bc2baaaec6dc6ed0d2ce912a5557fc1227b72836c",
+      "distributed_sha256": "4cbc4cbcc20ae2af936b9faeb9433dc64d7dc320d599892592f19769a10799a4",
       "path": "src/aios_native/request_contract.py",
-      "upstream_sha256": "4d7334b712fb7bc0fd0e0d767ff62d335ea3c8a6fde572faadf1e6c307d1c3e9"
+      "upstream_sha256": "639d753cad665c97825b7f20979e09a53d60b2920d763b83d58146a3556c0206"
     },
     {
       "distributed_sha256": "f8aa8625a4b8faba769b1fd2e2ddcef01795b90b640165d5b5732b77210c85f4",
@@ -44,9 +47,9 @@
       "upstream_sha256": "f72367410156f631443ab8a1aaa21079d5e137974cf3796b89b67fba6d6b3ed6"
     },
     {
-      "distributed_sha256": "0696112c72fb84112422943838cf3575f8bd1c0c9a4f95d68058bd2fe5f88e6c",
+      "distributed_sha256": "d0fae131d72ac4c680a0820de9d81d8ae120bf057e74f66dd93fdba6943d4141",
       "path": "src/aios_native/startup_intake.py",
-      "upstream_sha256": "dd305cb5d85122692e88d661bebe91314613a54e3b9bc4d824e398067dedc7f4"
+      "upstream_sha256": "a504aa169494aabad575692dc7cb2ab4ecd43c45980a4fb22b99272ac62b69bb"
     },
     {
       "distributed_sha256": "4ea5defefc76171c913fd312e31d1fb06fa797f77a18608d6d8b3a205df9c162",
@@ -82,8 +85,13 @@
       "distributed_sha256": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822",
       "path": "src/aios_core/checkpoints.py",
       "upstream_sha256": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822"
+    },
+    {
+      "distributed_sha256": "921bc15384386eeba7645c90a390abfd321883937861d1ccdd51ab14058b1066",
+      "path": "src/aios_native/registration.py",
+      "upstream_sha256": "ee3d273af7ddd6e5d78b90e5a789f18ba4c9d37a187ba42f6b1ef472fdd70a70"
     }
   ],
-  "upstream_release": "idle-resume-20260915",
+  "upstream_release": "project-registration-20260915",
   "version": "public-native-1"
 }
