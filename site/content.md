@@ -157,68 +157,50 @@ Turn a goal into an agreed specification, implementation, verification, and hand
 
 ## 04 · How a project is structured
 
-Each project has a shared context, an overall plan, and a record of the work. The plan breaks the goal into tasks with outputs, dependencies, and deadlines. Gates mark decisions the user must make before dependent work continues.
+- Context: brief, instructions, sources, data.
+- Plan: tasks, dependencies, gates, deadlines.
+- Record: progress, decisions, outputs.
 
-- Context: the project brief, instructions, sources, and data.
-- Project plan: the goal and completion criteria, task sequence, gates, and deadlines.
-- Project record: current progress, decisions, outputs, and their verification status.
+<details>
+<summary>Example: multi-source data collection</summary>
 
-### Example project: data collection across multiple sources
+Starting point: the user's research question. Illustrative schedule, 2026.
 
-Illustrative schedule, 5 October–13 November 2026. Deliverable: one analysis-ready dataset and a replication package for the data collection pipeline.
+| Task | 5–9 Oct | 12–16 Oct | 19–23 Oct | 26–30 Oct | 2–6 Nov | 9–13 Nov |
+| --- | --- | --- | --- | --- | --- | --- |
+| Operationalize | Options | | | | | |
+| Source A | | Source | Clean | Describe | | |
+| Source B | | Source | Clean | Describe | | |
+| Source C | | Source | Clean | Describe | | |
+| Merge sources | | | | | Dataset | |
+| Replication package | | | | | | Package |
+| User decisions | Select | | | Approve merge | | Accept |
 
-**Research question: provided by the user.**
+### Operationalize
 
-Operationalization: user inputs preferences → agent explores options → user selects.
+The user supplies preferences; the agent explores measures and sources; the user selects the operationalization.
 
-| Task | Schedule | Dependency | Output |
-| --- | --- | --- | --- |
-| T1 · Operationalization | Week 1, 5–9 Oct | User's research question and preferences | Selected operationalization and collection plan |
-| T2a / T2b / T2c · Collect sources A / B / C in parallel | Weeks 2–3, 12–23 Oct | G1 | Source data, provenance, and descriptive summaries |
-| T3a / T3b / T3c · Clean each source | Week 4, 26–30 Oct | Collection of the corresponding source | Cleaned datasets, scripts, and checks |
-| T4 · Merge sources | Week 5, 2–6 Nov | All cleaned sources and G2 | One analysis-ready dataset |
-| T5 · Replication package | Week 6, 9–13 Nov | T4 | Reproducible collection pipeline, ready for analysis |
+### Source
 
-### User decision gates
+Collect each source and record its provenance. Preserve the original data.
 
-- **G1 · 9 Oct: select the operationalization.** The user selects measures and sources from the options the agent explored.
-- **G2 · 30 Oct: review cleaning and merge rules.** Review each source's checks and resolve choices about how the sources will be combined.
-- **G3 · 13 Nov: accept the replication package.** Review the reproducibility checks and analysis-ready dataset before analysis begins.
+### Clean
 
-### T1 · Operationalization
+Clean each source separately. Save the transformation scripts and checks.
 
-- Start from the research question provided by the user.
-- The user supplies preferences; the agent explores measurement and source options; the user selects.
-- Output: the selected operationalization and data collection plan.
-- Due 9 October. Gate G1: record the user's selection before collection begins.
+### Describe
 
-### T2 · Data collection, for each source
+Summarize each cleaned source: coverage, distributions, and missingness. The user resolves merge rules before the sources are combined.
 
-- Source and collect the data required by the selected operationalization.
-- Run descriptive analysis of each source to understand coverage, distributions, and missingness.
-- Output: source data, provenance, and descriptive summaries. Source A, B, and C are illustrative parallel workstreams.
-- Due 23 October. Each source passes to its own cleaning task.
+### Merge sources
 
-### T3 · Data cleaning, for each source
+Join the cleaned sources using the agreed rules. Check unmatched records and produce one analysis-ready dataset.
 
-- Clean each source separately, using documented rules and preserving its original data.
-- Record transformations, source-specific checks, and unresolved choices.
-- Output: a cleaned dataset and cleaning script for each source.
-- Due 30 October. Gate G2: review checks and agree merge rules before combining sources.
+### Replication package
 
-### T4 · Merge into one dataset
+Package the sourcing, cleaning, descriptive analysis, and merging code with instructions. Verify that it reproduces the dataset; the user accepts the package as ready for analysis.
 
-- Combine the cleaned sources using the agreed merge rules.
-- Check joins, unmatched records, and the structure of the resulting dataset.
-- Output: one analysis-ready dataset, with a record of how each source contributes.
-- Due 6 November. The dataset and pipeline pass to T5 for packaging.
-
-### T5 · Replication package
-
-- Package the sourcing, descriptive analysis, cleaning, and merging steps with their code and instructions.
-- Check that the documented pipeline reproduces the analysis-ready dataset from the permitted inputs.
-- Output: a replication package for the data collection pipeline, with requirements and any access restrictions documented.
-- Due 13 November. Gate G3: the user reviews the checks and accepts the package as ready for analysis.
+</details>
 
 ## 05 · The lifecycle of a task
 
