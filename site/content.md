@@ -1,5 +1,7 @@
 # Working with AI Agents
 
+v2.0 — September 15, 2026
+
 *A practical guide to my AI Operating System*
 
 A system for organizing AI-assisted work, from the first instruction to the final handoff.
@@ -12,13 +14,11 @@ The researcher retains authority over substantive decisions throughout the work.
 
 ### Radical transparency
 
-The AI-assisted process is documented so others can inspect its inputs, intermediate work, decisions, and outputs.
+The AI-assisted process is documented so the user and/or others can inspect its inputs, intermediate work, decisions, and outputs.
 
 For the fuller argument: [With Great Powers](https://simonepaciphd.github.io/with-great-powers/) · [Chapter draft linked from that page](https://www.dropbox.com/scl/fo/fhwo1steehsz9knhxkjmt/AKRke9Y-8cThLowew2Gw_Bs?dl=0&rlkey=i7etn98de7zvv0m5dej4amqg3&st=dj31kxv6).
 
 ## 02 · Best practices by design
-
-Each card shows its name and one-sentence definition. Clicking opens the bullets below.
 
 ### Harness design
 
@@ -48,8 +48,6 @@ Turn a goal into an agreed specification, implementation, verification, and hand
 - Record verification, open items, and the handoff in the project's AI OS workflow.
 
 ## 03 · The AI OS, at a glance
-
-Personal instructions guide the session. Project files preserve the work. Every component opens its short description.
 
 - Across your work → active task ↔ project space.
 - Events and agent submissions → coordination and bookkeeping.
@@ -157,13 +155,58 @@ Personal instructions guide the session. Project files preserve the work. Every 
 
 [Technical installation and recovery guide ↗](https://github.com/simonepaciphd/ai-os-public/blob/main/docs/setup-guides/native-bookkeeping-install.md)
 
-## 04 · The lifecycle of a task
+## 04 · How a project is structured
+
+- Context: brief, instructions, sources, data.
+- Plan: tasks, dependencies, gates, deadlines.
+- Record: progress, decisions, outputs.
+
+<details>
+<summary>Example: multi-source data collection</summary>
+
+Starting point: the user's research question. Illustrative schedule, 2026.
+
+| Task | 5–9 Oct | 12–16 Oct | 19–23 Oct | 26–30 Oct | 2–6 Nov | 9–13 Nov |
+| --- | --- | --- | --- | --- | --- | --- |
+| Operationalize | Options | | | | | |
+| Source A | | Source | Clean | Describe | | |
+| Source B | | Source | Clean | Describe | | |
+| Source C | | Source | Clean | Describe | | |
+| Merge sources | | | | | Dataset | |
+| Replication package | | | | | | Package |
+| User decisions | Select | | | Approve merge | | Accept |
+
+### Operationalize
+
+The user supplies preferences; the agent explores measures and sources; the user selects the operationalization.
+
+### Source
+
+Collect each source and record its provenance. Preserve the original data.
+
+### Clean
+
+Clean each source separately. Save the transformation scripts and checks.
+
+### Describe
+
+Summarize each cleaned source: coverage, distributions, and missingness. The user resolves merge rules before the sources are combined.
+
+### Merge sources
+
+Join the cleaned sources using the agreed rules. Check unmatched records and produce one analysis-ready dataset.
+
+### Replication package
+
+Package the sourcing, cleaning, descriptive analysis, and merging code with instructions. Verify that it reproduces the dataset; the user accepts the package as ready for analysis.
+
+</details>
+
+## 05 · The lifecycle of a task
 
 **One session, one task.** Example: update a literature table.
 
 Start the task → agree the spec → plan and gate → implement → verify → close and hand off.
-
-Failed checks return to implementation. A change in scope returns to the specification.
 
 ### Start the task
 
@@ -213,7 +256,7 @@ Failed checks return to implementation. A change in scope returns to the specifi
 
 *Literature-table example:* Leave the updated table, its verification status, and a short list of unresolved sources for the next task.
 
-## 05 · Make it your own
+## 06 · Make it your own
 
 ### Start with the library
 
@@ -231,12 +274,11 @@ Failed checks return to implementation. A change in scope returns to the specifi
 
 [Open the installation guide](https://github.com/simonepaciphd/ai-os-public/blob/main/docs/setup-guides/native-bookkeeping-install.md).
 
-The map describes the overall setup. The public library and runtime provide building blocks to customize; personal project state and writing protocols are supplied by each user. The installer requires Python 3.11+ and Git.
-
 ### Current release scope
 
 - Public skills, five personas, a librarian, and a project-level bookkeeping installer.
-- Local operation by one user; personal identity and project contents are supplied separately.
+- Local operation by one user; personal identity, project contents, and writing protocols are supplied separately.
+- The installer requires Python 3.11+ and Git.
 - Automated package tests passed on Windows. Real Claude/Codex interface delivery and macOS/Linux installation remain unverified in the release evidence.
 - The installer guide includes checks for registration, checkpoints, and closeout on your own setup.
 
