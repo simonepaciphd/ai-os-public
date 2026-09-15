@@ -2,6 +2,12 @@
 
 A starter library for building an AI Operating System on top of [Claude Code](https://docs.claude.com/claude-code): protocol skills, agent personas, and a `librarian` subagent. Methodology and governance scaffolding to customize, not a turnkey product. See [`CLAUDE.md`](CLAUDE.md) for the full audience contract and what is *not* shared.
 
+## Native bookkeeping installation
+
+For session registration, hooks, claims, snapshots and closeout, use the
+[technical installer guide](docs/setup-guides/native-bookkeeping-install.md).
+Requires Python 3.11+ and Git; installs locally for selected projects.
+
 ## Quick start
 
 Pick the tool you use. Each guide is a step-by-step walkthrough that does not assume terminal experience.
