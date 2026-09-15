@@ -2,6 +2,10 @@
 
 A starter library for building an AI Operating System on top of [Claude Code](https://docs.claude.com/claude-code): protocol skills, agent personas, and a `librarian` subagent. Methodology and governance scaffolding to customize, not a turnkey product. See [`CLAUDE.md`](CLAUDE.md) for the full audience contract and what is *not* shared.
 
+## Interactive guide
+
+[Working with AI Agents](https://simonepaciphd.github.io/ai-os-public/) — a practical guide to the principles, components, and lifecycle of an AI OS task.
+
 ## Native bookkeeping installation
 
 For session registration, hooks, claims, snapshots and closeout, use the
