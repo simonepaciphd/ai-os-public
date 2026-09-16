@@ -8,6 +8,11 @@ A starter library for building an AI Operating System on top of [Claude Code](ht
 
 ## Native bookkeeping installation
 
+Already have a project folder? After installing native bookkeeping, say
+**“Register this existing project: [path].”** The
+[registration workflow](skills/project-registration.md) previews and completes
+registration without changing the folder structure.
+
 For session registration, hooks, claims, snapshots and closeout, use the
 [technical installer guide](docs/setup-guides/native-bookkeeping-install.md).
 Requires Python 3.11+ and Git; installs locally for selected projects.

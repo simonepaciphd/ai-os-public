@@ -65,6 +65,23 @@ for op in ("start", "activate"):
 ALLOWED["checkpoint"] |= {"model", "model_source"}
 ALLOWED["reconcile"] = REQUIRED["reconcile"]
 
+# Existing-project registration shares the approved native entrypoint but has
+# its own preflight/apply lifecycle. It never changes an activation's workspace.
+PROPERTIES.update({
+    "root": NONEMPTY, "workspace": NONEMPTY, "name": NONEMPTY,
+    "category": NONEMPTY, "subtype": NONEMPTY,
+    "phase": {"enum": ["preflight", "apply"]},
+    "preflight": {"type":"string", "pattern":r"^[0-9a-f]{64}(?![\s\S])"},
+    "source": {"type":"object", "required":["task","date","harness","model"],
+        "additionalProperties":False, "properties":{k:NONEMPTY for k in ("task","date","harness","model")}},
+    "delayed_artifacts": {"type":"array", "items":{**ARTIFACT,
+        "required":["path","sha256"], "properties":{**ARTIFACT["properties"],
+        "sha256":{"type":"string", "pattern":r"^[0-9a-f]{64}(?![\s\S])"}}}},
+})
+REQUIRED["register-project"] = {"operation","key","phase","root","workspace","native_id","harness"}
+ALLOWED["register-project"] = REQUIRED["register-project"] | {
+    "project","name","category","subtype","preflight","delayed_artifacts","source","tab","model"}
+
 
 def field_spec(operation, name):
     # Reconcile requires a scalar key but never journals or replay-caches it.
@@ -80,6 +97,10 @@ def schema():
         branch["properties"]["operation"] = {"const": op}
         if op == "checkpoint":
             branch["dependentRequired"] = {"model_source": ["model"], "model": ["model_source"]}
+        if op == "register-project":
+            branch["dependentRequired"] = {"delayed_artifacts":["source"], "source":["delayed_artifacts"]}
+            branch["allOf"] = [{"if":{"properties":{"phase":{"const":"apply"}}}, "then":{"required":["preflight"]}}]
+            branch["properties"]["delayed_artifacts"] = {**PROPERTIES["delayed_artifacts"], "minItems":1}
         branches.append(branch)
     return {"$schema": "https://json-schema.org/draft/2020-12/schema", "title": VERSION, "oneOf": branches}
 
@@ -133,15 +154,24 @@ def validate_request(request):
         for left, right in (("model_source", "model"), ("model", "model_source")):
             if left in request and right not in request:
                 raise RequestInvalid("missing-field", right)
+    if op == "register-project":
+        if request["phase"] == "apply" and "preflight" not in request:
+            raise RequestInvalid("missing-field", "preflight")
+        if bool(request.get("delayed_artifacts")) != ("source" in request):
+            raise RequestInvalid("invalid-field", "source")
     return request
 
 
 def examples():
     admission = {"project": "sample", "native_id": "YOUR_CURRENT_NATIVE_ID", "harness": "codex-cli",
                  "model": "fixture", "tab": "TEST WORK", "claims": [], "task": "Inspect selected work"}
-    return {op: {"operation": op, "key": "UNIQUE_" + op.upper() + "_KEY",
+    result = {op: {"operation": op, "key": "UNIQUE_" + op.upper() + "_KEY",
                   **(admission if op in {"start", "activate"} else
                      {} if op == "reconcile" else {"activation": "CURRENT-ACTIVATION-FROM-FRESH-RECEIPT"}),
                   **({"summary": "Verified local work", "input_summary": "Requested fixture work",
                       "decisions": [], "relaunch": "no"} if op == "close" else {})}
-            for op in REQUIRED}
+            for op in REQUIRED if op != "register-project"}
+    result["register-project"] = {"operation":"register-project", "key":"YOUR_UNIQUE_REGISTRATION_KEY",
+        "phase":"preflight", "root":"ABSOLUTE_EXISTING_PROJECT_PATH", "workspace":"ACTUAL_CONVERSATION_CWD",
+        "native_id":"YOUR_CURRENT_NATIVE_ID", "harness":"codex-cli"}
+    return result

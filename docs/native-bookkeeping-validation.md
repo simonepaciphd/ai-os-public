@@ -2,7 +2,27 @@
 
 Date: 2026-09-15.
 
-## Verified
+## Existing-project registration update
+
+Windows / Python 3.14: **49 isolated tests passed in 39.398 seconds**, comprising
+28 registration fixtures and 21 installer/lifecycle tests. Tests ran against the
+working public source with the regenerated runtime manifest. They include the
+installed CLI from both the AI OS root and a previously unregistered project root.
+
+Registration cases cover missing and repeated registration, slug/path conflicts,
+incomplete files, actual cwd binding, concurrent changes, interrupted publication,
+stable delayed artifacts and source attribution, Windows permission preservation,
+claims, controls and accurate not-yet-admitted intake. Successful retries produce
+no duplicate project changes. No real project was registered as a test.
+
+Runtime and new workflow files were checked for private filesystem roots, task
+identities and project names; none are distributed. Actual host receipt injection
+and non-Windows platforms remain unverified. The public code is distributed through
+a reviewed source branch; it is not an in-place runtime migration.
+
+The section below records the earlier installer baseline.
+
+## Earlier installer baseline
 
 - Windows, Python 3.14; standard library plus Git.
 - Tests executed from an extracted Git archive of tree
@@ -26,7 +46,7 @@ Only this validation note is added after the tested source tree; runtime and
 installer bytes remain those tested. Runtime source ancestry and adaptations are
 recorded in runtime/UPSTREAM.json.
 
-## Limits
+## Earlier baseline limits
 
 - These are disposable fixture tests, not real Claude/Codex UI acceptance.
 - macOS, Linux and other supported Python versions have not been exercised here.

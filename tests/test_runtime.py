@@ -47,10 +47,10 @@ class RuntimeTests(unittest.TestCase):
         self.assertEqual(code, expected, output.getvalue())
         return output.getvalue()
 
-    def cli(self, *args, payload=None, expected=0):
+    def cli(self, *args, payload=None, expected=0, cwd=None):
         run = subprocess.run([sys.executable, "-I", "-B", str(self.root / "runtime/aios.py"), *args],
                              input=json.dumps(payload) if payload is not None else None,
-                             capture_output=True, text=True, timeout=35)
+                             capture_output=True, text=True, timeout=35, cwd=cwd)
         self.assertEqual(run.returncode, expected, run.stdout + run.stderr)
         return json.loads(run.stdout)
 
@@ -75,6 +75,43 @@ class RuntimeTests(unittest.TestCase):
         self.assertFalse(self.root.exists())
         self.assertFalse(self.state.exists())
         self.assertEqual(list(self.project.iterdir()), [])
+
+    def register_from(self, workspace, native, folder):
+        values = dict(root=str(folder), workspace=str(workspace), native_id=native,
+                      harness="codex-cli", phase="preflight")
+        body, path = self.request("register-project", **values)
+        preview = self.cli("--request", str(path), cwd=workspace)
+        self.assertEqual(preview["conflicts"], [])
+        self.assertEqual(preview["admission"]["status"], "not-yet-admitted")
+        self.assertEqual(list(folder.iterdir()), [])
+        body.update(phase="apply", preflight=preview["preflight"])
+        path.write_text(json.dumps(body), encoding="utf-8")
+        result = self.cli("--request", str(path), cwd=workspace)
+        self.assertEqual(result["configuration"], "registered")
+        self.assertEqual(result["ledger"], "registered")
+        self.assertEqual(result["public_publication"], "verified")
+        self.assertEqual(Path(result["admission"]["workspace"]), workspace)
+        self.assertTrue(self.cli("--request", str(path), cwd=workspace)["duplicate"])
+        _, fresh = self.request("register-project", **values)
+        self.assertEqual(self.cli("--request", str(fresh), cwd=workspace)["proposed_changes"], [])
+        self.assertEqual({p.name for p in folder.iterdir()}, {"asset-registry.csv", "interaction-log.csv"})
+        return result
+
+    def test_installed_registration_from_os_root(self):
+        self.install()
+        folder = self.base / "Second project"
+        folder.mkdir()
+        result = self.register_from(self.root, "root-registration", folder)
+        self.assertEqual(result["admission"]["project"], "ai-os-system")
+        self.assertFalse(result["admission"]["target_project_admitted"])
+
+    def test_installed_registration_from_project_root(self):
+        self.install()
+        folder = self.base / "Second project"
+        folder.mkdir()
+        result = self.register_from(folder, "project-registration", folder)
+        self.assertTrue(result["admission"]["target_project_admitted"])
+        self.assertEqual(result["admission"]["project"], "second-project")
 
     def test_install_repeat_preserves_settings_and_instructions(self):
         (self.project / ".claude").mkdir()
