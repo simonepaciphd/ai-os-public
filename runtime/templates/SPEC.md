@@ -22,9 +22,11 @@ and verification. Hooks never authorize task effects or replace host permissions
 4. The writer creates project registry rows and exact text snapshots on request.
    Agents cannot grant human-verified status. Keep summaries content-minimal:
    never submit secrets, raw prompts, transcripts or sensitive artifact bodies.
-5. On ordinary exit, submit close with claims=[], summary and disposition.
-   Verify status=closed AND publication=complete. Pending publication requires
-   explicit bookkeeping reconciliation. Turn Stop and Interrupt are heartbeats;
+5. Finish edits, logs and checks, then submit close as the final tool call with
+   claims=[], summary and disposition. Verify status=closed and
+   close_verification.status=verified in that same result; send the final response
+   without more tools. Pending/unconfirmed publication requires operator inspection
+   or reconciliation outside the closed activation. Turn Stop and Interrupt are heartbeats;
    SessionEnd attempts close. Abrupt process death may deliver neither.
 6. On SHUTDOWN-REQUESTED.md, finish the current atomic step only, close and stop.
    A deadline never authorizes removing the flag or aborting shutdown.

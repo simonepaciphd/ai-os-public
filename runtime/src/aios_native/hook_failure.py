@@ -20,7 +20,8 @@ SAFE_CODES={'ownership-changed','integration-disabled','cleanup-only','claim-ove
  'activation-closed','activation-missing','explicit-activation-required','native-identity-missing',
  'native-activation-missing','native-cwd-not-selected','native-project-changed','ambiguous-native-cwd',
  'unsupported-native-event','publication-conflict','conflicting-duplicate','invalid-mode',
- 'invalid-close-invocation','activation-still-live','harness-required','invalid-activation','contract-version-mismatch'}
+ 'invalid-close-invocation','activation-still-live','harness-required','invalid-activation','contract-version-mismatch',
+ 'fresh-resume-required'}
 
 def failure(exc,stage,event,harness,metadata):
     code=('native-writer-busy' if isinstance(exc,WriterBusy) else
@@ -52,10 +53,29 @@ def failure(exc,stage,event,harness,metadata):
     recovery=('Use the installed runtime/aios.py --describe; inspect the existing task result/status. '
         'Submit the existing reconcile request for bookkeeping only, then an explicit resume with the fresh current activation. '
         'A closed activation requires native SessionStart; never replay a completed task effect or guess an activation.')
+    if code == 'native-cwd-not-selected':
+        recovery=('This directory is not registered with an AI OS project. Ask the user which project '
+            'it belongs to, then use the approved project-registration workflow from a registered task '
+            'if this host cannot offer registration. Reconcile/resume cannot add a directory mapping. '
+            'Do not guess a project or activation, or replay completed task effects. ')
+    if code == 'native-activation-missing':
+        recovery=('No admission binding exists for this conversation. Retrying the prompt cannot create it. '
+            'Restart or resume this conversation in the native host so it emits SessionStart, '
+            'then verify the fresh admission receipt before continuing. Do not issue a semantic resume '
+            'without an activation, invent an activation, or replay completed task effects. '
+            'If SessionStart itself fails, inspect that admission failure; reconciliation alone '
+            'cannot admit a conversation. ')
+    if code in {'explicit-activation-required', 'activation-closed'}:
+        recovery=('This activation is already closed. A follow-up tool call cannot verify or resume it. '
+            'If the close receipt was verified, finish with the final response and no further tools. '
+            'If close publication was pending or unconfirmed, an operator must inspect/reconcile bookkeeping '
+            'outside this closed activation. New work requires a fresh native SessionStart; '
+            'never replay completed task effects or guess an activation. ')
     disposition=('Session termination cannot be paused by this hook; close is unconfirmed. ' if transport=='stderr-termination' else
         'Unsupported delivery; no host stop or close is confirmed. ' if transport=='unsupported' else
         'Stop requested; actual host enforcement is not attested. ')
-    message=prefix+'AI OS bookkeeping failed ['+code+']; publication '+publication+'. '+disposition+recovery+' Diagnostic: '+json.dumps(diagnostic,sort_keys=True)
+    label='AI OS activation already closed [' if code in {'explicit-activation-required', 'activation-closed'} else 'AI OS bookkeeping failed ['
+    message=prefix+label+code+']; publication '+publication+'. '+disposition+recovery+' Diagnostic: '+json.dumps(diagnostic,sort_keys=True)
     output={'continue':False,'stopReason':message}
     if event=='PreToolUse':
         output['hookSpecificOutput']={'hookEventName':event,'permissionDecision':'deny','permissionDecisionReason':message}

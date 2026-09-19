@@ -1,7 +1,9 @@
 # Public native bookkeeping runtime
 
+Product version **2.0.1** is defined by the repository `VERSION` file and included in the generated runtime manifest.
+
 This is the portable dependency subset of the installed native bookkeeping system:
-seven core modules and eight native modules, plus a portable CLI and Windows hook
+seven core modules and nine native modules, plus a portable CLI and Windows hook
 launcher. Runtime dependencies are Python's standard library and the Git executable.
 
 - aios.py: manifest verification, native CLI, doctor and status.

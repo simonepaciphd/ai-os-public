@@ -128,11 +128,17 @@ def overlap(a: str, b: str, os_root: Path) -> bool:
 
 def csv_rows(path: Path, required: set[str]):
     body = path.read_text(encoding="utf-8-sig")
-    reader = csv.DictReader(io.StringIO(body, newline=""))
-    fields = reader.fieldnames
+    reader = csv.DictReader(io.StringIO(body, newline=""), strict=True)
+    try:
+        fields = reader.fieldnames
+    except csv.Error as exc:
+        raise Refused("malformed-ledger-row") from exc
     if fields is None or not required <= set(fields) or len(set(fields)) != len(fields) or "" in fields:
         raise Refused("unsupported-ledger-schema")
-    rows = list(reader)
+    try:
+        rows = list(reader)
+    except csv.Error as exc:
+        raise Refused("malformed-ledger-row") from exc
     if any(None in row or None in row.values() for row in rows):
         raise Refused("malformed-ledger-row")
     return fields, rows

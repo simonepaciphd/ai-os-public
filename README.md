@@ -1,5 +1,8 @@
 # ai-os-public
 
+Product version: **v2.0.1** ([release notes](docs/releases/v2.0.1.md), [changelog](CHANGELOG.md)).
+The canonical product version is stored in `VERSION`; runtime contract and storage identifiers are separate.
+
 A starter library for building an AI Operating System on top of [Claude Code](https://docs.claude.com/claude-code): protocol skills, agent personas, and a `librarian` subagent. Methodology and governance scaffolding to customize, not a turnkey product. See [`CLAUDE.md`](CLAUDE.md) for the full audience contract and what is *not* shared.
 
 ## Interactive guide

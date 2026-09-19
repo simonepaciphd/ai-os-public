@@ -8,7 +8,14 @@
     "Dependency-subset module description",
     "Existing-folder registration with portable memory/projects-ledger paths",
     "Source-attributed delayed logging and stable artifact checks",
-    "Explicit not-yet-admitted Intake diagnosis"
+    "Explicit not-yet-admitted Intake diagnosis",
+    "Bounded close publication readback and terminal recovery guidance",
+    "Bounded Windows shared-read and direct alias lookup",
+    "Unknown-directory Claude registration conversation and canonical-root-preserving attachment",
+    "Public portable registration CLI and strict argv identity independent of stdin",
+    "Strict malformed CSV quoting refusal without automatic repair",
+    "Python 3.11 startup intake junction compatibility with unchanged link rejection",
+    "Reject malformed admission bindings without fabricating fresh admission"
   ],
   "files": [
     {
@@ -17,19 +24,19 @@
       "upstream_sha256": "f489629ca61a8e0396ab2475e5e0b362eebadeb36f5a8da6389050b3982a9c82"
     },
     {
-      "distributed_sha256": "ecad24e5e59a17f948b6e462e5912932d6ec9f91b90bc3a7ec46919cc1b5993d",
+      "distributed_sha256": "b24f81943b8f8463d3d69d7e4b88b01a56ab0beb6771aff4b27b8cac4bd887a0",
       "path": "src/aios_native/bookkeeping.py",
       "upstream_sha256": "6386e980171338fab43fc207bd272423674ffdb3b30d3c39154029fd8266b9ca"
     },
     {
-      "distributed_sha256": "addc9d68ba1d007f2c902bf5813226ae787e6bd28b10b0493d9b5f14e84ab55c",
+      "distributed_sha256": "e0df20f9be0220d6c8bc4b007ab18227ce55390b2123e064861a388e4d9ca222",
       "path": "src/aios_native/ingress.py",
-      "upstream_sha256": "793614d1621e2f3dfe5fa4732b250fbfb2933571170aa131a125eea860a42fba"
+      "upstream_sha256": "3f29e5691db0092469ab3f5e9449544a33f6d4edcfd401a73d7c88dc17e84b9b"
     },
     {
-      "distributed_sha256": "c315df1e44bdf91ea4d4030dc10ffbae88e374a2550258dbf9d929188c4b4e13",
+      "distributed_sha256": "a2f569183f1b5bb680a41f09ab0f4590db3bb378b147cac270d55f7b7eda15ac",
       "path": "src/aios_native/hook_failure.py",
-      "upstream_sha256": "a6059040dbce96ac57c8bbdb6a95c9256c2c6acecf1117ed6f62c82f090b6f80"
+      "upstream_sha256": "2fc01a009ec87fe4524491825393567a2ed1390bbebf6457101d3f52facb069b"
     },
     {
       "distributed_sha256": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17",
@@ -37,17 +44,17 @@
       "upstream_sha256": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17"
     },
     {
-      "distributed_sha256": "4cbc4cbcc20ae2af936b9faeb9433dc64d7dc320d599892592f19769a10799a4",
+      "distributed_sha256": "dfed81d24fa84184916bee959e2a2be691a90d9f7979ae293809310b8bb50b85",
       "path": "src/aios_native/request_contract.py",
-      "upstream_sha256": "639d753cad665c97825b7f20979e09a53d60b2920d763b83d58146a3556c0206"
+      "upstream_sha256": "fa5592299b330402accb7eb74a16574350824dc6a033dc06fa743a7e1b13279f"
     },
     {
-      "distributed_sha256": "f8aa8625a4b8faba769b1fd2e2ddcef01795b90b640165d5b5732b77210c85f4",
+      "distributed_sha256": "6b57a7e06d2b422ff9c6b6327c2e28c86426670b3037ddbb6d52176f6fdd0800",
       "path": "src/aios_native/sharded.py",
-      "upstream_sha256": "f72367410156f631443ab8a1aaa21079d5e137974cf3796b89b67fba6d6b3ed6"
+      "upstream_sha256": "57804ac3613c097bfb529ff5ce3b1a96f8f5f5b0794437c24a0350871ca35cf6"
     },
     {
-      "distributed_sha256": "d0fae131d72ac4c680a0820de9d81d8ae120bf057e74f66dd93fdba6943d4141",
+      "distributed_sha256": "1d8c149e24ecef39a7937312cdb4f1de6c76d4d2cba292add2403508bdbf8822",
       "path": "src/aios_native/startup_intake.py",
       "upstream_sha256": "a504aa169494aabad575692dc7cb2ab4ecd43c45980a4fb22b99272ac62b69bb"
     },
@@ -87,11 +94,12 @@
       "upstream_sha256": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822"
     },
     {
-      "distributed_sha256": "921bc15384386eeba7645c90a390abfd321883937861d1ccdd51ab14058b1066",
+      "distributed_sha256": "c4970bb23c360c0fb6dd04f9a4662738c65cf0b1172d500441528a12d494b051",
       "path": "src/aios_native/registration.py",
-      "upstream_sha256": "ee3d273af7ddd6e5d78b90e5a789f18ba4c9d37a187ba42f6b1ef472fdd70a70"
+      "upstream_sha256": "ddb537ebc89da5bfa9300cc2f4d70e2f955639247f15ffe3e9b94c4967e917dc"
     }
   ],
-  "upstream_release": "project-registration-20260915",
+  "product_version": "2.0.1",
+  "upstream_release": "native-recovery-and-registration-20260918",
   "version": "public-native-1"
 }

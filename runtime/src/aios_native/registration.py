@@ -41,9 +41,12 @@ def identity(bk, req):
     if cwd != Path.cwd().resolve():
         raise Refused('registration-cwd-mismatch')
     alias = bk.root/'aliases'/(digest((req['harness']+':'+req['native_id']).encode())+'.json')
-    if not alias.exists():
+    from .sharded import shared_read
+    try:
+        binding = shared_read(alias)
+    except FileNotFoundError:
         return None
-    state = bk._session(json.loads(alias.read_bytes())['activation'])
+    state = bk._session(json.loads(binding)['activation'])
     if state['native_id'] != req['native_id'] or state['harness'] != req['harness']:
         raise Refused('native-identity-mismatch')
     if Path(state['workspace']).resolve() != cwd:
@@ -322,14 +325,41 @@ def plan(bk, req):
             log_rows.append(row)
             propose(root/'interaction-log.csv', csv_bytes(log_fields, log_rows))
     config = copy.deepcopy(bk.config)
+    attachment = None
+    if req.get('attach_workspace'):
+        if not existing or not req.get('project'):
+            raise Refused('registration-existing-project-required')
+        attachment = Path(req['workspace']).resolve(strict=True)
+        if (not attachment.is_dir() or attachment == bk.os_root or beneath(attachment, bk.root)
+                or any(x.lower() in {'inputs','background','.git','.cowork'} for x in attachment.parts)):
+            raise Refused('registration-root-forbidden')
+        if bk.config.get('mode') == 'rehearsal-sharded' and not beneath(attachment, Path(bk.config['rehearsal_root'])):
+            raise Refused('rehearsal-path-outside-root')
+        if caller and caller['project'] != slug:
+            raise Refused('native-project-changed')
+        for other, value in bk.config['projects'].items():
+            for p in [value['root']]+value.get('worktrees', []):
+                base = Path(p).resolve()
+                if not value.get('provenance', True):
+                    if attachment == base or beneath(base, attachment):
+                        raise Refused('registration-overlapping-project-root')
+                elif other != slug and (beneath(attachment, base) or beneath(base, attachment)):
+                    raise Refused('registration-overlapping-project-root')
+                elif other == slug and attachment != base and beneath(base, attachment):
+                    raise Refused('registration-overlapping-project-root')
+        if not any(workspace_matches(existing, attachment, Path(p))
+                   for p in [existing['root']]+existing.get('worktrees', [])):
+            config['projects'][slug].setdefault('worktrees', []).append(str(attachment))
+            propose(bk.config_path, encoded(config))
     if not existing:
         config['projects'][slug] = {'root':str(root), 'provenance':True, 'worktrees':[]}
         propose(bk.config_path, encoded(config))  # Configuration last: provenance is ready first.
     paths = list(writes)
-    bk.check_claims(paths + [a['path'] for a in artifact_checks], caller['id'] if caller else '')
+    bk.check_claims(paths + [a['path'] for a in artifact_checks] + ([str(attachment)] if attachment else []), caller['id'] if caller else '')
     bk.ownership()
     payload = {'project':slug, 'root':str(root), 'writes':list(writes.values()), 'observed':observed,
-               'stanza_inventory':inventory, 'artifacts':artifact_checks}
+               'stanza_inventory':inventory, 'artifacts':artifact_checks,
+               **({'attachment':str(attachment)} if attachment else {})}
     token = digest(encoded(payload))
     return payload, {'project':slug, 'canonical_root':str(root), 'configuration':'present' if existing else 'missing',
         'ledger':'present' if stanza is not None and slug in links else 'incomplete',
@@ -386,6 +416,8 @@ def execute(bk, req):
             tx = {'request_sha256':digest(encoded(req)), 'payload':payload, 'payload_sha256':digest(encoded(payload)),
                   'result':result, 'complete':False}
         paths = [w['path'] for w in payload['writes']]+[a['path'] for a in payload['artifacts']]
+        if payload.get('attachment'):
+            paths.append(payload['attachment'])
         was_complete = tx['complete']
         with bk._resource_locks(paths, deadline):
             def guard():
@@ -464,6 +496,9 @@ def execute(bk, req):
             caller = bk._session(admission['activation'])
         config = bk.config['projects'].get(payload['project'], {})
         if Path(config.get('root','')).resolve() != Path(payload['root']) or not config.get('provenance',True):
+            raise Refused('registration-configuration-drift')
+        if payload.get('attachment') and not any(workspace_matches(config, Path(payload['attachment']), Path(p))
+                for p in [config['root']]+config.get('worktrees', [])):
             raise Refused('registration-configuration-drift')
         stanza = bk.os_root/'memory/projects-ledger'/(payload['project']+'.md')
         if not stanza.is_file() or Path(frontmatter(stanza.read_bytes()).get('path','')).resolve() != Path(payload['root']):

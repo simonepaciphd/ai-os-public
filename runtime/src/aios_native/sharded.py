@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from contextlib import contextmanager, ExitStack
 from datetime import datetime
+import errno
 import json
 import os
 import re
@@ -45,9 +46,16 @@ def shared_read(path):
         try:
             return path.read_bytes()
         except OSError as exc:
-            if os.name != 'nt' or getattr(exc,'winerror',None) not in {5,32,33} or time.monotonic()>=deadline:
+            # Windows CRT-backed open() can report sharing violations as
+            # EACCES without winerror. Retry the read only, within the existing
+            # budget; persistent denials still propagate unchanged.
+            winerror = getattr(exc, 'winerror', None)
+            retryable = (winerror in {5, 32, 33} or
+                         (winerror is None and exc.errno == errno.EACCES))
+            remaining = deadline - time.monotonic()
+            if os.name != 'nt' or not retryable or remaining <= 0:
                 raise
-            time.sleep(.005)
+            time.sleep(min(.005, remaining))
 
 
 class ProjectBookkeeper(Bookkeeper):

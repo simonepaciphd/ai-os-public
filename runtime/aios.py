@@ -22,17 +22,23 @@ def verify_runtime():
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
+    stage = "runtime-integrity"
     try:
         verify_runtime()
+        stage = "configuration-arguments"
         if "--config" in argv:
             config = Path(argv[argv.index("--config") + 1]).resolve()
         else:
             config = RUNTIME.parent / "config" / "ownership.json"
             if not any(x in argv for x in ("--describe", "--validate")):
                 argv.extend(["--config", str(config)])
+        if "--register-cwd" in argv:
+            from aios_native.ingress import main as native_main
+            return native_main(argv)
         if "--doctor" in argv or "--status" in argv:
             from aios_native.bookkeeping import Bookkeeper
             from aios_core.coord import snapshot
+            stage = "configuration"
             bk = Bookkeeper(config)
             bk.ownership()
             controls = bk.control()
@@ -42,6 +48,7 @@ def main(argv=None):
                         raise ValueError("installation-directory-missing")
                 print(json.dumps({"status": "ok" if controls == "clear" else "cleanup-only",
                                   "controls": controls, "runtime_integrity": "verified",
+                                  "product_version": json.loads((RUNTIME / "MANIFEST.json").read_bytes())["product_version"],
                                   "storage_format": bk.config["storage_format"],
                                   "projects": sorted(bk.config["projects"]),
                                   "host_delivery": "requires-real-session-check"}))
@@ -58,7 +65,7 @@ def main(argv=None):
     except (OSError, ValueError, KeyError, IndexError) as exc:
         # Paths, input bodies and exception messages stay out of hook diagnostics.
         print(json.dumps({"continue": False, "stopReason": "AI OS installation check failed",
-                          "error_class": type(exc).__name__}))
+                          "stage": stage, "error_class": type(exc).__name__}))
         return 2
 
 
