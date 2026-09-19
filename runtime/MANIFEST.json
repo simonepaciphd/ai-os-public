@@ -1,8 +1,8 @@
 {
   "files": {
-    "README.md": "17395047ee7767c9c668cb001f9bce9eb69950609282749e23ad06ea7942c9d8",
-    "UPSTREAM.json": "87b60151af2c7e049fd1d5cd177d29369b0af5599811198eafcce9e44aff23b2",
-    "aios.py": "c334684bfb31ebdcc6d1d7a9756fc044f389875b2bd0e79b921d187bb9c608f2",
+    "README.md": "106fcf5533b0cb81ac12478faac4d8a282053b677c60231b8043b3c435bd2ea1",
+    "UPSTREAM.json": "a735f063c459dffe7cc410fdf847368b681ad034a4bbc7e7d55a8847a2fc50f3",
+    "aios.py": "62d65707353c2b851212ebdc0daf569003ce4b527dca75fe9aabffa4f5b1d445",
     "hook.ps1": "f4973985465ae041b0fbff3c3e616e46d23e020ad9f49570b5bc7b97882855b3",
     "src/aios_core/__init__.py": "4ea5defefc76171c913fd312e31d1fb06fa797f77a18608d6d8b3a205df9c162",
     "src/aios_core/checkpoints.py": "b5803ce6f4cc8225b9c6821b29023ddef4dc62c7d2d5924df8118f252bb25822",
@@ -12,15 +12,16 @@
     "src/aios_core/replay.py": "522f18cb2ee13391b4517d7bae527255e2060ffed61b09af14e7fd05fd8c4a7c",
     "src/aios_core/store.py": "ed88ef7cb725eb0e9244b95a02140cdab4ef4f120833268da0a09273c60fb128",
     "src/aios_native/__init__.py": "f489629ca61a8e0396ab2475e5e0b362eebadeb36f5a8da6389050b3982a9c82",
-    "src/aios_native/bookkeeping.py": "ecad24e5e59a17f948b6e462e5912932d6ec9f91b90bc3a7ec46919cc1b5993d",
-    "src/aios_native/hook_failure.py": "c315df1e44bdf91ea4d4030dc10ffbae88e374a2550258dbf9d929188c4b4e13",
-    "src/aios_native/ingress.py": "addc9d68ba1d007f2c902bf5813226ae787e6bd28b10b0493d9b5f14e84ab55c",
+    "src/aios_native/bookkeeping.py": "b24f81943b8f8463d3d69d7e4b88b01a56ab0beb6771aff4b27b8cac4bd887a0",
+    "src/aios_native/hook_failure.py": "a2f569183f1b5bb680a41f09ab0f4590db3bb378b147cac270d55f7b7eda15ac",
+    "src/aios_native/ingress.py": "e0df20f9be0220d6c8bc4b007ab18227ce55390b2123e064861a388e4d9ca222",
     "src/aios_native/model.py": "5bc862c1a8a7d45caaf6eeb6823e3c8f70be754e1130a7fc226095a6303a7a17",
-    "src/aios_native/registration.py": "921bc15384386eeba7645c90a390abfd321883937861d1ccdd51ab14058b1066",
-    "src/aios_native/request_contract.py": "4cbc4cbcc20ae2af936b9faeb9433dc64d7dc320d599892592f19769a10799a4",
-    "src/aios_native/sharded.py": "f8aa8625a4b8faba769b1fd2e2ddcef01795b90b640165d5b5732b77210c85f4",
-    "src/aios_native/startup_intake.py": "d0fae131d72ac4c680a0820de9d81d8ae120bf057e74f66dd93fdba6943d4141",
-    "templates/SPEC.md": "6e4d2e4700e8aa12c6f2963cec70101c6f9c2a725367ed1617c0152e42916081"
+    "src/aios_native/registration.py": "c4970bb23c360c0fb6dd04f9a4662738c65cf0b1172d500441528a12d494b051",
+    "src/aios_native/request_contract.py": "dfed81d24fa84184916bee959e2a2be691a90d9f7979ae293809310b8bb50b85",
+    "src/aios_native/sharded.py": "6b57a7e06d2b422ff9c6b6327c2e28c86426670b3037ddbb6d52176f6fdd0800",
+    "src/aios_native/startup_intake.py": "1d8c149e24ecef39a7937312cdb4f1de6c76d4d2cba292add2403508bdbf8822",
+    "templates/SPEC.md": "f9f22d921ad03eabd4945ecc1f514800045737ff1a61bf792f6882a7c2a6c781"
   },
+  "product_version": "2.0.1",
   "version": "public-native-1"
 }

@@ -69,6 +69,7 @@ ALLOWED["reconcile"] = REQUIRED["reconcile"]
 # its own preflight/apply lifecycle. It never changes an activation's workspace.
 PROPERTIES.update({
     "root": NONEMPTY, "workspace": NONEMPTY, "name": NONEMPTY,
+    "attach_workspace": {"type": "boolean"},
     "category": NONEMPTY, "subtype": NONEMPTY,
     "phase": {"enum": ["preflight", "apply"]},
     "preflight": {"type":"string", "pattern":r"^[0-9a-f]{64}(?![\s\S])"},
@@ -80,7 +81,7 @@ PROPERTIES.update({
 })
 REQUIRED["register-project"] = {"operation","key","phase","root","workspace","native_id","harness"}
 ALLOWED["register-project"] = REQUIRED["register-project"] | {
-    "project","name","category","subtype","preflight","delayed_artifacts","source","tab","model"}
+    "project","name","category","subtype","preflight","delayed_artifacts","source","tab","model","attach_workspace"}
 
 
 def field_spec(operation, name):

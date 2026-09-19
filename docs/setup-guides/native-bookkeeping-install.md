@@ -1,5 +1,7 @@
 # Native bookkeeping: technical installation
 
+Product release: **v2.0.1**. See the [upgrade and rollback plan](../releases/v2.0.1.md).
+
 This installs the public native runtime for one existing local project. It provides
 registration, heartbeat, claims, shutdown checks, semantic provenance, exact text
 snapshots, closeout and bookkeeping recovery through Claude Code or Codex hooks.
@@ -86,8 +88,10 @@ it does not prove that your harness actually delivers hooks.
 3. Inspect the SessionStart result. It should report an active activation and
    clear controls. Verify a corresponding record in coord/sessions/.
 4. Submit a checkpoint and close request using the examples below.
-5. Verify closed status, publication=complete, the closed session record, an
-   operator closeout note and one project interaction-log row.
+5. Read `status=closed` and `close_verification.status=verified` from that same
+   close result. The result checks released claims, archive and closeout publication.
+   Send the final response without another tool; any independent inspection belongs
+   to the operator outside the closed activation.
 
 A CLI-simulated event is not evidence of host delivery. Interrupted, unsupported,
 disabled or untrusted hooks must remain explicit gaps. A stopped response does
@@ -113,6 +117,58 @@ admission, local publication and actual host receipt delivery are reported
 separately. `native-not-yet-admitted` means the conversation has no admission
 alias; it does not establish a deployment failure. Registration does not install
 project-local hooks or prove that the host delivers them.
+
+## Unknown directories in Claude
+
+When the installed hook is actually delivered from an unknown directory, SessionStart
+and UserPromptSubmit ask which existing project it belongs to or whether to create
+a new project. Explicit registration instructions already supplied by the user count
+as the answer. Ordinary tools remain gated until registration succeeds.
+
+Use the exact `registration_command` in that context with the chosen slug and
+`existing` or `new`. The portable CLI uses `--register-cwd --harness claude-code
+--native-id ACTUAL_ID --workspace ACTUAL_CWD --project SLUG --registration-kind KIND`.
+On Windows the generated command invokes PowerShell and works from Git Bash too;
+on POSIX it invokes the selected Python directly. Space-containing paths are supported.
+Paths requiring unsupported shell quoting require operator registration; do not edit
+the generated command. AskUserQuestion and the exact read-only Describe command remain
+available, subject to ordinary host permissions. Extra arguments, alternate configuration,
+command chaining and background execution are denied.
+
+Existing-project attachment adds a workspace alias while preserving the canonical
+root and ledgers. New-project registration uses the actual cwd as its root. The
+writer checks ownership, controls, claims, overlaps and terminal identity, then uses
+the existing preflight/apply journal. Retry the identical command after an interrupted
+publication. Registration takes identity from argv and ignores stdin.
+
+This does not install global hooks or make an undelivered hook run in arbitrary
+directories. Other harnesses retain explicit registration/restart guidance.
+A missing admission in an already mapped directory requires a native SessionStart
+and fresh receipt; prompt/tool events and semantic resume cannot invent admission.
+
+## Malformed ledger repair
+
+Inspect the selected installation's `config/ownership.json`: the project's configured
+`root` contains `asset-registry.csv` and `interaction-log.csv`. The portfolio index
+is under installation `memory/projects-ledger.md`, with stanzas in
+`memory/projects-ledger/`. Do not infer a different OS root from a CSV failure.
+`--describe` is state-free contract discovery and never validates these files.
+
+Registration refuses missing columns, duplicate headers, short/overflow rows and
+invalid CSV quoting. It does not infer hashes, discard cells or merge records.
+Repair requires a separately authorized operator action:
+
+1. Stop new admissions and close active writers; inspect claims and pending journals.
+2. Back up exact bytes and record each preimage SHA-256. Build and review an explicit
+   proposed correction using verified source records; keep uncertain values unresolved.
+3. Use the existing registration mutex and shared resource locks for every affected
+   ledger. Recheck the original hashes under those locks immediately before replacement;
+   if anything changed, stop and reconcile the new record instead of overwriting it.
+4. Preserve permissions, verify exact postimages, validate with the native parser and
+   account for all records and fields. Retain private backups. Then retry registration.
+
+No general ledger auto-repair API or installation migration is supplied. Do not run a
+one-off repair from another installation or restore old ledgers over newer records.
 
 ## Semantic checkpoints
 
@@ -181,12 +237,15 @@ retrying an uncertain bookkeeping delivery; never reuse it for different content
 }
 ~~~
 
-Submit it with --request and verify status=closed plus publication=complete.
+Finish edits, logging and checks first. Submit it with --request as the final tool
+call and verify status=closed plus close_verification.status=verified in that
+same result. Then send the final response without more tools.
 Public relaunch values are yes, no and operator-decides. This public contract
 uses native-semantic-public-1; it is not an in-place migration of an existing
 private deployment.
 
-For a pending project publication, submit a new request:
+For pending or unconfirmed publication, an operator outside the closed activation
+inspects the state and may submit this bookkeeping-only request:
 
 ~~~json
 {"operation": "reconcile", "key": "example-reconcile-001"}
@@ -218,8 +277,8 @@ is an operator action after shutdown/recovery is resolved.
   A plan records original files and intended postimage hashes. Restore only a
   file still matching the recorded postimage; preserve newer edits. After checking
   that no installer is running, resolve the lock deliberately before retrying.
-- Unsupported ledger: reconcile column names before retrying; no rows are silently
-  rewritten to fit another schema.
+- Malformed ledger: follow the explicit repair procedure below; registration refuses
+  without rewriting rows. Describe reports the source contract, not ledger contents.
 
 To disconnect, close all active sessions and verify publication, remove only this
 runtime's handlers from the project's two hook files, remove the managed AIOS NATIVE

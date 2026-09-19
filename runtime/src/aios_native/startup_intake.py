@@ -4,6 +4,7 @@ import base64
 import json
 import os
 import re
+import stat
 from datetime import datetime, timezone
 from pathlib import Path
 from aios_core.coord import parse_closeout_note
@@ -16,9 +17,17 @@ MAX_BOARD_BYTES = 1048576
 MAX_ENTRIES = 4096
 MAX_SESSIONS = 256
 
+def _linked(path: Path):
+    # Python 3.11 lacks Path.is_junction(). The mount-point reparse tag also
+    # identifies junctions without following them; symlinks retain their check.
+    return (path.is_symlink() or
+            (os.name == 'nt' and getattr(path.lstat(), 'st_reparse_tag', None)
+             == stat.IO_REPARSE_TAG_MOUNT_POINT))
+
+
 def _revision(path: Path):
     """Observable identity/metadata; never a lock, capability or atomic snapshot."""
-    if path.is_symlink() or path.is_junction():
+    if _linked(path):
         raise Refused('intake-linked-source')
     s = path.stat()
     return (s.st_dev, s.st_ino, s.st_mode, s.st_size, s.st_mtime_ns,
@@ -38,7 +47,7 @@ def _entries(directory: Path, limit: int):
         for entry in scan:
             if len(entries) >= limit:
                 raise Refused('intake-index-overflow')
-            if entry.is_symlink() or Path(entry.path).is_junction():
+            if _linked(Path(entry.path)):
                 raise Refused('intake-linked-source')
             entries.append(Path(entry.path))
     return sorted(entries, key=lambda p: p.name)

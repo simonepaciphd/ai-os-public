@@ -127,7 +127,12 @@ class RuntimeTests(unittest.TestCase):
         config = json.loads(settings.read_bytes())
         self.assertEqual(config["permissions"], {"deny": ["Bash(rm:*)"]})
         self.assertEqual(len(config["hooks"]["Stop"]), 2)
-        self.assertEqual(self.cli("--doctor")["status"], "ok")
+        doctor = self.cli("--doctor")
+        self.assertEqual(doctor["status"], "ok")
+        version = (REPO / "VERSION").read_text().strip()
+        self.assertEqual(doctor["product_version"], version)
+        self.assertEqual((self.root / "VERSION").read_text().strip(), version)
+        self.assertEqual(json.loads(self.config.read_bytes())["product_version"], version)
 
     def test_both_harnesses_close_reopen_and_ignore_late_events(self):
         self.install()

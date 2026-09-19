@@ -24,6 +24,7 @@ PACKAGE = Path(__file__).resolve().parent
 sys.dont_write_bytecode = True
 BEGIN = "<!-- AIOS NATIVE BEGIN -->"
 END = "<!-- AIOS NATIVE END -->"
+PRODUCT_VERSION = (PACKAGE / "VERSION").read_text(encoding="utf-8").strip()
 ASSET_FIELDS = ["asset_path", "asset_type", "creator", "created", "last_modified",
                 "verification", "ai_output_hash", "model_metadata", "notes"]
 LOG_FIELDS = ["date", "session_id", "harness", "model", "researcher_input_summary",
@@ -62,8 +63,10 @@ def instructions(root):
             "Do not claim native-owned records. Check live claims before every write.\n\n"
             f"CLI: `{command([sys.executable, '-I', '-B', str(launcher)])}`. "
             "Use `--describe` for the request schema; `--request <private-json-file>` "
-            "submits a semantic request. On exit submit close and verify closed plus "
-            "publication complete. Honor shutdown controls; failed hooks permit only "
+            "submits a semantic request. Finish edits and checks first; submit close as the final tool call. "
+            "Verify status=closed and close_verification.status=verified in that result, then send "
+            "the final response without more tools. Unconfirmed publication needs operator recovery "
+            "outside the closed activation; new work requires fresh native SessionStart. Honor shutdown controls; failed hooks permit only "
             "cleanup/recovery until revalidated. Never replay task effects.\n"
             f"{END}\n")
 
@@ -254,6 +257,10 @@ def build_plan(args):
             raise ValueError("Existing runtime differs; upgrades require a separate migration")
         plan.put(destination, body)
     plan.put(root / "runtime/MANIFEST.json", (PACKAGE / "runtime/MANIFEST.json").read_bytes())
+    if manifest.get("product_version") != PRODUCT_VERSION:
+        raise ValueError("Product version and runtime manifest differ")
+    config["product_version"] = PRODUCT_VERSION
+    plan.put(root / "VERSION", (PRODUCT_VERSION + "\n").encode())
     plan.put(config_path, encoded(config))
     spec = root / "coord/SPEC.md"
     if not spec.exists():
@@ -334,7 +341,7 @@ def main(argv=None):
             count = plan.apply(state / "installation-backups" / uuid.uuid4().hex)
         finally:
             lock.unlink()
-        print(json.dumps({"status": "installed", "changed_files": count,
+        print(json.dumps({"status": "installed", "product_version": PRODUCT_VERSION, "changed_files": count,
                           "runtime": str(root / "runtime/aios.py"), "private_state": str(state),
                           "next": "Restart the harness; review hook trust and verify a fresh SessionStart receipt."}, indent=2))
         return 0
