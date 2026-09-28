@@ -274,6 +274,14 @@ Start the task → agree the spec → plan and gate → implement → verify →
 
 [Open the installation guide](https://github.com/simonepaciphd/ai-os-public/blob/main/docs/setup-guides/native-bookkeeping-install.md).
 
+### Install level by level
+
+- Start with one instructions file.
+- Add the library, a project, bookkeeping, and portfolio routines as you need them.
+- Your agent installs each level and stops for your decision.
+
+[Open the level-by-level guide](install.html).
+
 ### Current release scope
 
 - Public skills, five personas, a librarian, and a project-level bookkeeping installer.
