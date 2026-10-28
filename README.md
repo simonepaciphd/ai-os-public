@@ -9,6 +9,15 @@ A starter library for building an AI Operating System on top of [Claude Code](ht
 
 [Working with AI Agents](https://simonepaciphd.github.io/ai-os-public/) — a practical guide to the principles, components, and lifecycle of an AI OS task.
 
+## Planning a research project with an agent
+
+A student edition of the planning workflow is published with the POLISCI 290
+capstone course: the agent helps you specify what the finished project must
+contain, list the resources you have, and write a step-by-step plan with checks.
+You make every research choice.
+[Browse the folder](https://github.com/simonepaciphd/polisci290-capstone/tree/main/research-planning)
+or [download the zip](https://simonepaciphd.github.io/polisci290-capstone/research-planning.zip).
+
 ## Native bookkeeping installation
 
 Already have a project folder? After installing native bookkeeping, say

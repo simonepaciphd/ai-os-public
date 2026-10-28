@@ -2,7 +2,7 @@
 name: project-setup-existing
 description: Companion to `project-setup.md` for retrofitting agentic workflow into a project that already has its own folder structure. Inventories existing state, presents three retrofit depths (full restructure / selective additions / minimal adoption), produces a sign-off plan, executes it, backfills the asset registry, wires the skill library, and registers the project in the active ledger.
 audience: public
-version: 0.1
+version: 0.4
 ---
 
 # Project Setup Protocol — Existing Projects
@@ -38,7 +38,8 @@ Do not use when:
    - **Option A (Full restructure):** the full folder tree from `project-setup.md`, with existing files moved into place; a filled-in `README.md`, `implementation-roadmap.md`, `asset-registry.csv`, `interaction-log.csv`.
    - **Option B (Selective additions):** whichever subset of the template folders + ledgers closes real gaps; a filled-in `README.md` that names the hybrid layout.
    - **Option C (Minimal adoption):** one agent-facing folder (default name `agent-workspace/`, user-renameable) at project root, plus `asset-registry.csv` and `interaction-log.csv` at project root, plus a short `README.md` section describing the adoption.
-4. A row in each ledger logging the retrofit session itself.
+4. At every depth: the project repo per `project-setup.md` Step 5a (one local Git repo outside cloud sync, or the project's existing one). Moving existing code into it is an explicit `MOVE` item in the Phase 3 plan, with the sync checks of Rule 4; never automatic.
+5. A row in each ledger logging the retrofit session itself.
 
 ## Universal rules
 
@@ -109,6 +110,8 @@ Fold the existing project into the full `project-setup.md` tree. Every existing 
 
 Keep the existing layout. Add only the template folders whose absence is actually costing the user something — e.g., add `background/literature/` if literature is currently scattered, or add `appendix/` only when the project is approaching submission. Always add the two ledgers and a filled-in `README.md` that names the hybrid layout.
 
+**Replication package.** Any `appendix/` a retrofit creates uses the standard layout in `project-setup.md` (*Replication Package*). An `appendix/` that already exists in another shape is left as it is until the project next assembles a package (submission, conditional acceptance, deposit); at that point the retrofit plan (Phase 3) lists the `MOVE`/`CREATE` items that bring it into the layout, for sign-off.
+
 - **When it makes sense:** the project has a working layout the user is fluent in, but a few specific gaps are real.
 - **Cost:** half a day to a day. Low friction.
 - **Risk:** moderate. Hybrid layouts need a README that explains them, or a future collaborator will be confused.
@@ -148,6 +151,7 @@ Goal: produce a concrete, line-by-line plan before any file touches disk.
 - `CREATE <path>` with a one-line purpose.
 - `ARCHIVE <source> → <archive path>` with a one-line reason.
 - `BACKFILL asset-registry.csv` for a named list of existing files, with default `verification` values.
+- `CREATE project repo <path>` per `project-setup.md` Step 5a, with the README `Project repo:` line.
 - `LEAVE <path>` for anything explicitly outside the retrofit (useful when the user has flagged a no-touch zone).
 
 Read the plan back to the user. Ask: *"Any items to add, remove, or reorder? Any that should wait for a separate session?"* Do not proceed until the user gives explicit sign-off on the final list.
@@ -177,7 +181,11 @@ Goal: populate `asset-registry.csv` with pre-existing assets at a level of fidel
 2. *"For backfilled rows, what default should I use for `creator` when the creator is unclear — `human`, `mixed`, or leave blank for you to fill?"*
 3. *"What default for `verification` — `not-verified` for everything, or `partially-verified` for anything you have previously reviewed?"*
 
+The registry is also the resource inventory a planning workflow starts from (`project-setup.md`, *Resource inventory*), so prefer backfilling the data and code a future plan will consume.
+
 **Action step:** append rows in bulk per the user's choices. For any row where `creator` or `model_metadata` is genuinely unknown, leave the cell blank rather than guess. Flag the blank rows in the summary so the user can fill them opportunistically.
+
+The provenance columns in the current schema (`ai_output_hash` in the registry; `initiator` / `task_difficulty` / `decisions` in the log) **cannot be reconstructed for pre-existing assets** — there is no AI-output snapshot to recover after the fact. Leave them blank for all backfilled rows; they instrument going forward only, and an audit will honestly report them as `not-instrumented` for any window that predates adoption. If the project will produce new AI-authored text assets, also create `.cowork/snapshots/` at project root so forward snapshots have a home.
 
 ---
 

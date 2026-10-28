@@ -2,7 +2,7 @@
 name: literature-error-check-protocol
 description: Two-pass pre-publication audit of every bibliography entry against how it is actually used in a paper. Pass 1 is broad-and-shallow (existence + abstract); Pass 2 is deep-and-scoped (full-text retrieval). Output is a calibrated table of inexistent / misused error probabilities.
 audience: public
-version: 0.1
+version: 0.2
 ---
 
 # Literature Error-Check Protocol
@@ -31,7 +31,7 @@ Do not use when:
 ## Artifacts the skill produces
 
 1. **Printed Markdown table in chat**, one row per bibliography entry, sorted by `cum_err` descending. Columns: `key`, `found`, `URL`, `P(inexistent)`, `P(misused)`, `other_errors`, `cum_err`.
-2. **Saved report file** at `<project_root>/appendix/literature-error-check-<YYYY-MM-DD>.md` if an `appendix/` directory exists. If it does not, the agent **stops and asks the user where to save** — it does not silently fall back to project root. The saved file mirrors the chat table and adds:
+2. **Saved report file** `literature-error-check-<YYYY-MM-DD>.md`, at a location the user names. The agent **always asks where to save** — it never defaults to `appendix/` (the replication package, which ships no working reports) and never silently falls back to project root. The saved file mirrors the chat table and adds:
    - Pass identifier (`pass: 1` or `pass: 2`).
    - Per-entry evidence trail: which lookup hit, what abstract/full-text was retrieved, what claim sentence was matched against.
    - Proposed deep-audit set (Pass 1 only).
@@ -63,7 +63,7 @@ Goal: confirm inputs and which pass is being run.
 2. *"Confirm the project root. Default: current working directory."*
 3. *"Confirm the main `.tex` file. Default: `main.tex` at project root."*
 4. *"Confirm the `.bib` file location. Default: scan `\bibliography{...}` and `\addbibresource{...}` in the main `.tex` to discover it."*
-5. *(Pass 2 only)* *"Path to the Pass 1 report file. Default: most recent `literature-error-check-*.md` under `appendix/`."*
+5. *(Pass 2 only)* *"Path to the Pass 1 report file. Default: most recent `literature-error-check-*.md` at the location named in Pass 1."*
 6. *(Pass 2 only)* *"Deep-audit set — accept the proposed set from Pass 1, or revise."* The agent prints Pass 1's proposed set, then waits.
 7. *(Pass 2 only)* *"How many of those entries to deep-audit in this invocation?"* No default — the user picks the batch size based on the Pass 1 output. See Universal Rule 7. If the requested batch is larger than the agent judges feasible in one call, raise the concern but defer to the user.
 
@@ -157,7 +157,7 @@ Goal: print and save the Pass 1 report; propose a deep-audit set; end the invoca
 Sort entries by `cum_err` descending. Print as a Markdown table. Column order: `key | found | URL | P(inexistent) | P(misused) | other_errors | cum_err`. Truncate long URLs with `…`; truncate long `other_errors` lists to top 3 with a count of remaining.
 
 ### 2.2 Save the report
-Write to `<project_root>/appendix/literature-error-check-<YYYY-MM-DD>.md` if `appendix/` exists. If it does not, **pause and ask the user where to save** (Universal Rule + "Artifacts the skill produces" item 2). Do not silently fall back. File structure:
+**Ask the user where to save**, then write `literature-error-check-<YYYY-MM-DD>.md` there ("Artifacts the skill produces" item 2). Never default to `appendix/`; do not silently fall back. File structure:
 
 ```markdown
 ---

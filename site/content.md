@@ -6,6 +6,16 @@ v2.0 — September 15, 2026
 
 A system for organizing AI-assisted work, from the first instruction to the final handoff.
 
+## In brief
+
+The AI OS is a library of plain-text instructions that tells an AI agent how to work on your research.
+
+- **Personas.** Each session takes a role, such as researcher or writer, with a set remit and clear limits.
+- **Protocol skills.** Recurring procedures written out as steps, with points where the agent stops for your decision.
+- **Project setup.** Every project gets the same folders, including a standard replication package in `appendix/`.
+- **Native bookkeeping (optional).** A local install that records sessions, outputs and handoffs.
+- **Planning.** The [Research Guide (PDF)](https://simonepaciphd.github.io/polisci290-capstone/research-guide/Agentic_Research_Workflow_Research_Guide.pdf) sets out three moves: specify what the finished project must contain, list your resources, then write a step-by-step plan with a check for each task. A [student edition](https://github.com/simonepaciphd/polisci290-capstone/tree/main/research-planning) of the workflow is ready to [download](https://simonepaciphd.github.io/polisci290-capstone/research-planning.zip). You make every research choice.
+
 ## 01 · Two guiding principles
 
 ### Researcher control
