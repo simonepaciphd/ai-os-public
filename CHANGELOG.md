@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+- Skills: `project-setup` 0.4 and `project-setup-existing` 0.4 add one local
+  project repo per project (code plus `planning/`), the standard `appendix/`
+  replication package layout, the asset registry as resource inventory, and
+  AI-output snapshots for installs without native bookkeeping. The
+  registration route and native-writer wording are kept.
+- Skills: `literature-error-check` 0.2 always asks where to save its report and
+  never defaults to `appendix/`.
+- README: link to the student edition of the planning workflow.
+- Site: "In brief" overview after the hero on the guide page, linking the
+  Research Guide PDF and the student planning workflow.
+- Runtime unchanged; product version stays 2.0.1.
+
 ## v2.0.1 — release candidate
 
 - Return bounded close-publication verification in the closing call and teach
