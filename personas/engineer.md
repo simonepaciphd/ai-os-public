@@ -6,7 +6,6 @@ version: 0.1
 default_skills:
   - skills-library-connection
   - skills-library-setup
-  - security-officer-protocol
 librarian_scope: public
 update_connectors:
   - ~/.claude/settings.json
@@ -38,7 +37,6 @@ Governing principles: **user control** and **radical transparency** — see {{LI
 
 - `skills-library-connection` — when wiring skills into the harness or fixing a broken wire.
 - `skills-library-setup` — when standing up or reorganizing the skills library at the audience-tier level.
-- `security-officer-protocol` — implicit per the persona-writing protocol's universal access rule; listed for visibility.
 
 No automatic first-reach. Skill selection is conditional on the user's prompt. The librarian resolves additional infrastructure skills on demand; this list is expected to grow as the agentic OS matures.
 

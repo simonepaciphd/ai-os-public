@@ -2,7 +2,7 @@
 name: literature-error-check-protocol
 description: Two-pass pre-publication audit of every bibliography entry against how it is actually used in a paper. Pass 1 is broad-and-shallow (existence + abstract); Pass 2 is deep-and-scoped (full-text retrieval). Output is a calibrated table of inexistent / misused error probabilities.
 audience: public
-version: 0.2
+version: 0.3
 ---
 
 # Literature Error-Check Protocol
@@ -279,7 +279,7 @@ End of invocation. No further action — the user decides what to do with the fi
 - **A paper-writing protocol the user maintains** — this skill is the late-stage QA pass *after* paper-writing has produced the bibliography and cite sites. Run after the paper is otherwise submission-ready.
 - **`lit-review-protocol.md`** — sibling, not parent: run a lit review *before* writing to discover sources; run literature-error-check *after* writing to audit how those sources are used.
 - **`project-setup.md`** — when invoked inside a project that uses `project-setup`'s registry, the saved report file should be added to `asset-registry.csv` with `asset_type = report` and `creator = mixed`. (Not required for invocations outside the project-setup convention.)
-- **`security-officer-protocol.md`** — invoke if the agent finds itself drifting toward confident false positives (e.g., flagging an entire bibliography as "mostly hallucinated" without evidence). The officer is diagnostic; authorship of the report stays with this skill.
+- **Decision surfacing** — if the agent finds itself drifting toward confident false positives (e.g., flagging an entire bibliography as "mostly hallucinated" without evidence), stop and put it to the user as a decision. Authorship of the report stays with this skill.
 
 ## Common failure modes
 

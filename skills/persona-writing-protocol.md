@@ -2,14 +2,14 @@
 name: persona-writing-protocol
 description: Five-phase interview-driven procedure for writing a new agent persona — encodes the user's chosen posture, skill repertoire, auto-detection signals, tool defaults, and handoffs into a reusable persona file invocable per session.
 audience: public
-version: 0.1
+version: 0.2
 ---
 
 # Persona-Writing Protocol
 
 A five-phase skill for writing a new agent persona: an interview-driven procedure to specify the posture, skill repertoire, auto-detection signals, tool defaults, and handoffs of an agent persona that the user can invoke explicitly (or that auto-selects at session start) for a coherent stretch of work.
 
-Designed to compose with `skill-writing-protocol.md` (a persona file is itself a skill artifact and is registered the same way), the per-audience librarian subagent (the persona declares which skills it reaches for; the librarian resolves bare names to files), `security-officer-protocol.md` (every persona has implicit security-officer access), and the OS hooks in `~/.claude/settings.json` (persona invocations are logged the same way skill invocations are).
+Designed to compose with `skill-writing-protocol.md` (a persona file is itself a skill artifact and is registered the same way), the per-audience librarian subagent (the persona declares which skills it reaches for; the librarian resolves bare names to files), and the OS hooks in `~/.claude/settings.json` (persona invocations are logged the same way skill invocations are).
 
 Governing principles: **user control** and **radical transparency** — see {{LIBRARY_ROOT}}/skills/about-governing-principles.md. The persona never invents its own posture; it encodes a stance the user has chosen for a recurring task type. Every phase begins with an interview and waits for explicit sign-off before committing anything to disk.
 
@@ -41,12 +41,12 @@ A persona is loaded by the agent at session start (via auto-detection or explici
 2. **Do not invent posture.** If the user has not expressed a preference on a stance question, mark it `OPEN` and return. Do not fill gaps with plausible-sounding defaults.
 3. **Encode practice, not training-memory.** The persona should reflect this user's stance for this task — not the genre-average posture an LLM might construct.
 4. **Bare names with audience.** The `default_skills` list uses bare skill names (e.g., `lit-review-protocol`). The `audience` field controls resolution. Never write paths in the list. Skills resolve through the audience librarian.
-5. **Implicit integrations, explicit logging.** Every persona has implicit access to the audience librarian, the security-officer, the LT-memory layers (global / project), and the skill-usage log. Personas declare integrations in the file ONLY when overriding a default. Personas DO declare `update_connectors` in frontmatter — a list of paths/globs pointing at user writings relevant to the persona's scope; the librarian scans these on demand and queues proposed updates in `{{LIBRARY_ROOT}}/memory/connector-update-queue.md` for the user to process in a live session. The OS-level hooks log every persona invocation, every skill invocation through the persona, and every integration use, regardless of whether the persona file mentions them.
+5. **Implicit integrations, explicit logging.** Every persona has implicit access to the audience librarian, the LT-memory layers (global / project), and the skill-usage log. Personas declare integrations in the file ONLY when overriding a default. Personas DO declare `update_connectors` in frontmatter — a list of paths/globs pointing at user writings relevant to the persona's scope; the librarian scans these on demand and queues proposed updates in `{{LIBRARY_ROOT}}/memory/connector-update-queue.md` for the user to process in a live session. The OS-level hooks log every persona invocation, every skill invocation through the persona, and every integration use, regardless of whether the persona file mentions them.
 6. **Per-tool defaults, not categorical shortcuts.** Tool defaults are listed per tool, with explicit posture (`liberal`, `ask-first`, `consent-then`, `refuse`). Categorical postures (`reader`, `writer`, `executor`) are forbidden — they collapse important distinctions.
 7. **Auto-detection rules are structured.** Path patterns, file types, project metadata flags, prompt-shape signals — concrete and machine-checkable. No free-form prose detection (e.g., "when the user is doing research"). The librarian and the SessionStart hook can only act on structured signals.
 8. **Personas reach, they don't author.** A persona reaches for skills; it does not contain skill content. If a persona starts inlining method specifications, refactor that into a skill the persona references.
 9. **Mid-session handoff requires a clean break.** When the agent or user proposes switching personas mid-session, prompt: "clear current context, or end session and start fresh?" Do not silently switch.
-10. **Invoke the security officer when nervous.** Same rule as `skill-writing-protocol.md`. If a phase you are about to execute could mislead the user or commit them to a position they have not framed, invoke `security-officer` (sentinel `[security-officer: <reason>]` or `Agent({subagent_type: "security-officer", ...})`) before acting.
+10. **Surface it when nervous.** Same rule as `skill-writing-protocol.md`. If a phase you are about to execute could mislead the user or commit them to a position they have not framed, stop and put it to the user as a decision before acting.
 
 ---
 
@@ -107,7 +107,7 @@ Goal: specify per-tool posture, plus any non-default integrations beyond the imp
 
 1. *"Per tool — `Read`, `Edit`, `Write`, `Bash`, `Glob`, `Grep`, `WebFetch`, `WebSearch`, `Agent`, `NotebookEdit` — what is the default posture (`liberal`, `ask-first`, `consent-then`, `refuse`)?"*
 2. *"Are there tools this persona should never call?"*
-3. *"Does this persona need any integration beyond librarian / security-officer / memory / skill-usage log?"*
+3. *"Does this persona need any integration beyond librarian / memory / skill-usage log?"*
 4. *"Does this persona log any artifacts beyond what the OS-level skill-usage log captures?"*
 5. *"Are there default permissions or hook behaviors this persona overrides?"*
 
@@ -211,7 +211,7 @@ Mid-session handoff requires the clean-break prompt per Universal Rule 9 of `per
 ## Integration overrides
 
 <Only present if this persona deviates from the implicit default integrations
-(librarian / security-officer / memory / skill-usage log). Otherwise omit this section.>
+(librarian / memory / skill-usage log). Otherwise omit this section.>
 ```
 
 ---
@@ -221,7 +221,6 @@ Mid-session handoff requires the clean-break prompt per Universal Rule 9 of `per
 - `skill-writing-protocol.md` — a persona file is registered in `asset-registry.csv` per Rule 4 of the setup protocol; the session that produced it is logged in `interaction-log.csv` per Rule 5.
 - `project-setup.md` — when the persona is invoked inside a project folder, the invocation is recorded in `interaction-log.csv` (the OS-level hook).
 - The audience librarian (`<audience>/agents/librarian.md`) — resolves the bare skill names listed in `default_skills` to files, using keyword match against skill description frontmatter.
-- `security-officer-protocol.md` — implicit access for every persona; invoke when nervous about a posture decision.
 - `lit-review-protocol.md` — invoked as a subagent if Phase 1 needs external posture models (e.g., what does an "adversarial reviewer" look like in the relevant literature).
 
 ## Common failure modes

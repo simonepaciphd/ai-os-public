@@ -2,7 +2,7 @@
 file: install-kit/levels/L4-portfolio.md
 version: 0.1.0
 last_reviewed: 2026-09-27
-governed_by: personas/chief-of-staff.md, agents/librarian.md, skills/recover-session-protocol.md, skills/security-officer-protocol.md
+governed_by: personas/chief-of-staff.md, agents/librarian.md, skills/recover-session-protocol.md
 ---
 
 # L4 — Portfolio
@@ -19,7 +19,6 @@ Offer each piece separately; the user may take any subset:
 1. **Chief of staff as the session default.** See `personas/chief-of-staff.md` ("Auto-detection signals", "Integration overrides"). It points at the ledger through `{{LEDGER_PATH}}`, so confirm that value matches the ledger L3 created.
 2. **Librarian review.** Run on demand; a monthly cadence is suggested in the chief-of-staff persona. Its outputs are review files and update queues that only the user marks applied or dismissed.
 3. **Session recovery.** `skills/recover-session-protocol.md` rebuilds a lost session from disk. It is written for Claude Code.
-4. **Security officer.** `skills/security-officer-protocol.md`. Several of its automatic triggers are not shipped ("v0"), so it is invoked by hand.
 
 ## Steps
 1. Confirm the ledger path and that each registered project has a row. Do not edit ledger rows by hand; registration and the writer own them (PRINCIPLES §7.6).
