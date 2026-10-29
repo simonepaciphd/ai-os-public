@@ -2,7 +2,7 @@
 name: literature-error-check-protocol
 description: Two-pass pre-publication audit of every bibliography entry against how it is actually used in a paper. Pass 1 is broad-and-shallow (existence + abstract); Pass 2 is deep-and-scoped (full-text retrieval). Output is a calibrated table of inexistent / misused error probabilities.
 audience: public
-version: 0.2
+version: 0.3
 ---
 
 # Literature Error-Check Protocol

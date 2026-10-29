@@ -2,7 +2,7 @@
 name: skill-writing-protocol
 description: Six-phase interview-driven procedure for writing a new skill — combines the user's existing practice with external sources to produce a reusable, named playbook that any agent instance can invoke.
 audience: public
-version: 0.1
+version: 0.2
 ---
 
 # Skill-Writing Protocol

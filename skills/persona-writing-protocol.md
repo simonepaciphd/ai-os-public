@@ -2,7 +2,7 @@
 name: persona-writing-protocol
 description: Five-phase interview-driven procedure for writing a new agent persona — encodes the user's chosen posture, skill repertoire, auto-detection signals, tool defaults, and handoffs into a reusable persona file invocable per session.
 audience: public
-version: 0.1
+version: 0.2
 ---
 
 # Persona-Writing Protocol
