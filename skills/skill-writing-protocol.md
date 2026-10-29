@@ -42,7 +42,7 @@ A skill installed globally is available to every project on the machine. A proje
 3. **Mine artifacts, don't mine training memory.** The skill should encode this user's practice as evidenced in their own prior work, not the genre-average practice the model has seen during training.
 4. **Skills are living documents.** Version them, date them, and update them when practice drifts. A skill that has not been revised in six months should be read again before reuse.
 5. **Tight scope beats broad scope.** A skill that covers one task well is more useful than one that tries to cover every adjacent task poorly. Split broad skills into composable smaller ones.
-6. **Invoke the security officer when nervous.** If a phase you are about to execute could mislead the user, harm the project, or commit them to a position they have not framed, invoke `security-officer` (sentinel `[security-officer: <reason>]` or `Agent({subagent_type: "security-officer", ...})`) before acting. The officer is diagnostic and advisory; you keep authorship. See `{{LIBRARY_ROOT}}/skills/security-officer-protocol.md`.
+6. **Surface it when nervous.** If a phase you are about to execute could mislead the user, harm the project, or commit them to a position they have not framed, stop and put it to the user as a decision before acting. You keep execution; the user decides.
 
 ---
 

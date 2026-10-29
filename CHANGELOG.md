@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Retired the security officer: `skills/security-officer-protocol.md` removed;
+  personas, the L4 level and the persona/skill-writing rules no longer invoke it.
+  The "invoke when nervous" rules now say: stop and put it to the user as a
+  decision.
 - Skills: `project-setup` 0.4 and `project-setup-existing` 0.4 add one local
   project repo per project (code plus `planning/`), the standard `appendix/`
   replication package layout, the asset registry as resource inventory, and

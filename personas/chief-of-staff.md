@@ -7,7 +7,6 @@ default_skills:
   - project-setup
   - project-setup-existing
   - persona-writing-protocol
-  - security-officer-protocol
 librarian_scope: public
 update_connectors:
   - {{LEDGER_PATH}}
@@ -32,7 +31,6 @@ Governing principles: **user control** and **radical transparency** — see {{LI
 - `project-setup` — when the conversation is scaffolding a new project from scratch.
 - `project-setup-existing` — when bringing a legacy project under the agentic OS.
 - `persona-writing-protocol` — when proposing or drafting a new persona.
-- `security-officer-protocol` — when a strategic recommendation could mislead the user or commit them to a position they have not framed.
 - A user-defined project-check protocol — when reviewing an ongoing project's goals, progress, resources, or timeline. *(Not shipped in public mirror; the user drafts and the librarian resolves it.)*
 
 No automatic first-reach. Skill selection is conditional on whether the conversation involves setting up a new project, checking an ongoing one, or higher-level management.
