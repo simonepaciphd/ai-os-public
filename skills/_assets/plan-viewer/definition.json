@@ -1,0 +1,295 @@
+{
+ "format": "plan-viewer-definition-v1",
+ "status": "APPROVED round 3",
+ "origin": "classifier/definition-draft.md of the plan that built the plan viewer (not shipped in this repo); source tags as in that file. Personal names removed: cited authors in the [WGP-3.5] quote are replaced by [citations omitted]; owner-name tags are renamed [OWNER-...].",
+ "delivery": "classify.py sends one request per decision point. 'state' holds only the item: {\"decision\": <scrubbed DP text>, \"context\": <scrubbed '<plan title>. Task: <card name>.'>}, the same two fields the blind coder saw in the test set. Each question's definition, criteria and anchors travel inside that question's own 'instructions' object (Jev accepts objects there), not in 'state', so the substantive material is never part of the procedural question's context and vice versa. Source tags and basis quotes stay in this file for provenance and are not sent. definition_sha256 is the SHA-256 of the canonical JSON of the 'questions' object actually sent (keys sorted, compact separators, UTF-8).",
+ "shared": {
+  "governing_distinction": {
+   "text": "As a general principle, grounded both in questions of effectiveness and control, the researcher should weigh the balance between procedural and substantive nature of the task, understanding these aspects as not mutually exclusive and only partially inversely proportional to each other [citations omitted]. Agents will be strong contenders for tasks that can be performed by following a simple checklist, say making the TikZ package produce Figure 2. On the other hand, whenever decisions are substantive, say the structure and content of said figure, agents quickly become more unreliable options.",
+   "source": "[WGP-3.5]"
+  }
+ },
+ "questions": {
+  "substantive": {
+   "type": "noul",
+   "question": "Is this decision substantive, that is, a decision about the direction, content, design or interpretation of the research that must stay with the researcher rather than be made by an agent? Give the probability that the answer is yes.",
+   "definition": [
+    {
+     "text": "Researcher control... aims at maintaining human ownership of every substantive decision.",
+     "source": "[WGP-abs]"
+    },
+    {
+     "text": "The first holds that every substantive decision in a project, from theorizing to empirical design through interpretation and line-editing, must remain with the researcher. We may outsource execution, but not at the cost of ownership and judgment.",
+     "source": "[WGP-1]"
+    },
+    {
+     "text": "No substantive decision (design, interpretation, final phrasing, model or method choice) is made by an agent without explicit user sign-off.",
+     "source": "[WGP-C1]"
+    },
+    {
+     "text": "decision over content/design/interpretation = substantive",
+     "source": "[AUDIT-P2]"
+    },
+    {
+     "text": "I would argue that the two most fundamental aspects of the scientific enterprise are the direction of research and the error rate of findings. Human control of substantive decisions and radical transparency over the AI-assisted research process are meant to defend these principles.",
+     "source": "[WGP-4]"
+    }
+   ],
+   "working_definition": "A decision is substantive when its answer shapes what the research claims, measures, samples, codes, concludes or says, so that a different answer would change the direction of the research or the error rate of its findings.",
+   "leans_yes_when": [
+    {
+     "criterion": "concerns theory, empirical design, interpretation of evidence, or final wording.",
+     "basis": "from theorizing to empirical design through interpretation and line-editing",
+     "source": "[WGP-1]"
+    },
+    {
+     "criterion": "picks a model or a method.",
+     "basis": "design, interpretation, final phrasing, model or method choice",
+     "source": "[WGP-C1]"
+    },
+    {
+     "criterion": "would change the validity of an instrument, measure or result if answered wrongly.",
+     "basis": "Load-bearing: getting the answer wrong changes the validity of the instrument, not merely its polish.",
+     "source": "[WGP-B]"
+    },
+    {
+     "criterion": "is one where the researcher's domain knowledge beats any default an agent would pick.",
+     "basis": "Domain-dominant: the researcher's answer strictly dominates a model default.",
+     "source": "[WGP-B]"
+    },
+    {
+     "criterion": "fills a gap in method that the instructions left open.",
+     "basis": "A prompt that does not specify how a task should be done is a prompt that delegates method to the model",
+     "source": "[WGP-3.4]"
+    },
+    {
+     "criterion": "sets the structure or content of an output, not only its execution.",
+     "basis": "whenever decisions are substantive, say the structure and content of said figure",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "criterion": "is theoretical, or matters for the final research finding (e.g. variable choice, conceptualization, interpretation).",
+     "basis": "other types of substantive decisions: anything theoretical or with significance for the final research finding (variable choice, conceptualization, interpretation)",
+     "source": "[OWNER]"
+    },
+    {
+     "criterion": "spends money, exposes or moves private data, grants access to people or systems, commits people (their time, roles or responsibilities), or deploys anything. For tooling choices, spending money or deploying does not by itself make a decision substantive; only moving or exposing private data or granting access does.",
+     "basis": "Owner ruling (criterion added); qualifier from a later owner resolution between this criterion and criterion 8",
+     "source": "[OWNER-RULING]"
+    },
+    {
+     "criterion": "sets how agents are overseen, or what an agent may do without the researcher's sign-off; or sets how research data and records are retained, deleted or disclosed.",
+     "basis": "Sign off explicitly before committing any agent-produced artifact. / The second management aspect concerns monitoring and verification of AI output. / Archive, don't delete. Move obsolete files to the nearest archive/ subfolder rather than removing them.",
+     "source": "[WGP-A] [WGP-3.5] [WGP-C1]; owner ruling round 3"
+    }
+   ],
+   "leans_no_when": [
+    {
+     "criterion": "only carries out a structure and content that are already fixed.",
+     "basis": "Agents will be strong contenders for tasks that can be performed by following a simple checklist, say making the TikZ package produce Figure 2.",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "criterion": "has a standard or already-validated answer that an agent can reasonably default to.",
+     "basis": "Items the agent can reasonably default on -- wording of validated scale items, response-option phrasing for standard demographics, ordering of attention-check wording -- are deliberately absent.",
+     "source": "[WGP-B]"
+    },
+    {
+     "criterion": "is execution: it requires neither ownership nor judgment about the research.",
+     "basis": "We may outsource execution, but not at the cost of ownership and judgment.",
+     "source": "[WGP-1]"
+    },
+    {
+     "criterion": "is a data-handling or processing choice that an established convention, a prior rule or an earlier approved decision already settles, even when it is described in methods vocabulary (sampling, measurement). It does not cover coding choices.",
+     "basis": "Items the agent can reasonably default on",
+     "source": "[WGP-B]; owner ruling round 3"
+    }
+   ],
+   "anchors": [
+    {
+     "id": "S-A1",
+     "decision": "Decide the structure and content of Figure 2",
+     "expected": "high",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "id": "S-A2",
+     "decision": "Decide the population, sampling frame and mode of a survey on AI adoption",
+     "expected": "high",
+     "source": "[WGP-B]"
+    },
+    {
+     "id": "S-A3",
+     "decision": "Make the TikZ package produce Figure 2 as already designed",
+     "expected": "low",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "id": "S-A4",
+     "decision": "Choose the ordering of attention-check wording in the survey",
+     "expected": "low",
+     "source": "[WGP-B]"
+    },
+    {
+     "id": "S-A5",
+     "decision": "Choose how standard errors are computed for a cross-country panel regression, in a field whose usual convention (clustering by country) largely settles the choice",
+     "expected": "high",
+     "source": "round 2 (S3 b): both high"
+    },
+    {
+     "id": "S-A6",
+     "decision": "Assign the code to a document that a rule in an existing, published codebook covers directly",
+     "expected": "high",
+     "source": "round 2 (S3 b): both high"
+    },
+    {
+     "id": "S-A7",
+     "decision": "Choose which of two equally suitable text editors to use for writing analysis scripts",
+     "expected": "low",
+     "source": "round 2 (S3 b): both low"
+    },
+    {
+     "id": "S-A8",
+     "decision": "Pick the weekday on which to run a routine, low-cost maintenance job that has no deadline",
+     "expected": "low",
+     "source": "round 2 (S3 b): both low"
+    },
+    {
+     "id": "S-A9",
+     "decision": "Decide whether a literature-search agent may add sources to a paper's bibliography without the researcher opening each source",
+     "expected": "high",
+     "source": "owner ruling round 3"
+    },
+    {
+     "id": "S-A10",
+     "decision": "Decide whether a paper's replication package releases the full prompts and agent transcripts or only a summary of them",
+     "expected": "high",
+     "source": "owner ruling round 3"
+    },
+    {
+     "id": "S-A11",
+     "decision": "Convert all dates in a merged dataset to ISO 8601, as the project's data-cleaning rules already require",
+     "expected": "low",
+     "source": "owner ruling round 3"
+    },
+    {
+     "id": "S-A12",
+     "decision": "Use the price deflator named in the approved research design to convert nominal amounts to constant prices",
+     "expected": "low",
+     "source": "owner ruling round 3"
+    }
+   ]
+  },
+  "procedural": {
+   "type": "noul",
+   "question": "Is this decision procedural, that is, one that can be settled by following a simple checklist, a fixed rule or an existing convention, so that a competent agent can carry it out? Give the probability that the answer is yes.",
+   "definition": [
+    {
+     "text": "Agents will be strong contenders for tasks that can be performed by following a simple checklist, say making the TikZ package produce Figure 2.",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "text": "checklist-followable = procedural",
+     "source": "[AUDIT-P2]"
+    },
+    {
+     "text": "We may outsource execution, but not at the cost of ownership and judgment.",
+     "source": "[WGP-1]"
+    }
+   ],
+   "working_definition": "A decision is procedural to the extent that a checklist, rule, convention or prior specification already fixes how it should be made, so that making it is execution rather than judgment.",
+   "leans_yes_when": [
+    {
+     "criterion": "can be settled by following a checklist or a written rule.",
+     "basis": "tasks that can be performed by following a simple checklist",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "criterion": "has an outcome that a rule or check can confirm.",
+     "basis": "Wire one deterministic validation check into the workflow: a type check, a reference count, a schema validation, a unit test.",
+     "source": "[WGP-A]"
+    },
+    {
+     "criterion": "implements, runs, converts or produces something whose specification is already given.",
+     "basis": "Figure 4 sketches how all research stages may offer candidate applications for delegation to AI agents. Figure 4, Empirics: \"implement pipelines; run specification sweeps; produce tables and figures\"; Writing: \"convert across formats\"",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "criterion": "has a reasonable default an agent can apply.",
+     "basis": "Items the agent can reasonably default on",
+     "source": "[WGP-B]"
+    }
+   ],
+   "leans_no_when": [
+    {
+     "criterion": "needs the decision-maker to choose the structure or content, not just to apply one.",
+     "basis": "whenever decisions are substantive, say the structure and content of said figure, agents quickly become more unreliable options.",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "criterion": "could only be made by filling a gap in the goals or methods, because no rule settles it.",
+     "basis": "Agents will fill whatever gaps in the goals or methods stated by the user",
+     "source": "[WGP-3.4]"
+    }
+   ],
+   "anchors": [
+    {
+     "id": "P-A1",
+     "decision": "Make the TikZ package produce Figure 2 as already designed",
+     "expected": "high",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "id": "P-A2",
+     "decision": "Add a schema validation check to the workflow",
+     "expected": "high",
+     "source": "[WGP-A]"
+    },
+    {
+     "id": "P-A3",
+     "decision": "Decide the structure and content of Figure 2",
+     "expected": "low",
+     "source": "[WGP-3.5]"
+    },
+    {
+     "id": "P-A4",
+     "decision": "Decide which constructs use existing validated scales and which need new items",
+     "expected": "low",
+     "source": "[WGP-B]"
+    },
+    {
+     "id": "P-A5",
+     "decision": "Choose how standard errors are computed for a cross-country panel regression, in a field whose usual convention (clustering by country) largely settles the choice",
+     "expected": "high",
+     "source": "round 2 (S3 b): both high"
+    },
+    {
+     "id": "P-A6",
+     "decision": "Assign the code to a document that a rule in an existing, published codebook covers directly",
+     "expected": "high",
+     "source": "round 2 (S3 b): both high"
+    },
+    {
+     "id": "P-A7",
+     "decision": "Choose which of two equally suitable text editors to use for writing analysis scripts",
+     "expected": "low",
+     "source": "round 2 (S3 b): both low"
+    },
+    {
+     "id": "P-A8",
+     "decision": "Pick the weekday on which to run a routine, low-cost maintenance job that has no deadline",
+     "expected": "low",
+     "source": "round 2 (S3 b): both low"
+    }
+   ]
+  }
+ },
+ "probe": {
+  "note": "Used only by the version check: the substantive question, sent unchanged, about one anchor decision (no project data).",
+  "question": "substantive",
+  "state": {
+   "decision": "Pick the weekday on which to run a routine, low-cost maintenance job that has no deadline",
+   "context": "Version-check probe."
+  }
+ }
+}

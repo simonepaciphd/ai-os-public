@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Skills: first public release of the planning family. `planning-protocol` 0.8
+  coordinates `planning-output-specification` 0.3, `planning-resource-map` 0.3,
+  `planning-implementation-map` 0.4, `planning-adversarial-review` 0.2,
+  `planning-adjudication` 0.3, `planning-decision-points` 0.1,
+  `planning-labels` 0.2 and `planning-spec-reconciliation` 0.3.
+- Skill assets: `skills/_assets/plan-viewer/` (plan-viewer 1.2.0: `plan_viewer.py`
+  builder and `--check` linter, `FORMAT.md` contract, page template,
+  `plan_status.py`, the optional `classify.py` decision-point classifier for a
+  paid API, and offline tests with fixtures) and
+  `skills/_assets/planning-templates/` (`SPEC.md`, `RESOURCES.md`, `PLAN.md`,
+  `Plan-Labels.json`, a GitHub Pages workflow).
+- Rebuild `site/ai-os-install-kit.zip` from the updated files.
 - Skills: `project-setup` 0.4 and `project-setup-existing` 0.4 add one local
   project repo per project (code plus `planning/`), the standard `appendix/`
   replication package layout, the asset registry as resource inventory, and

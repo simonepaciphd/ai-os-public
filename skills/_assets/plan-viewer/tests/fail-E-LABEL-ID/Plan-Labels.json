@@ -1,0 +1,103 @@
+{
+  "format": "plan-labels-v1",
+  "written_by": {
+    "harness": "claude-code",
+    "model": "example-model-2026-01"
+  },
+  "date": "2025-12-15",
+  "sources": {
+    "SPEC.md": "fa316dbd3e7630a224460188014ee8a1e6a6195f8bdae9f1bb9adc15d61c86f3",
+    "RESOURCES.md": "fba9bee3d23ef4506e03f015698c71c31b86f13f8c67f858f23df911628840de",
+    "PLAN.md": "7a366b33b049b43a749072f4f88f01595ea8f6a8276b387b5a82ec9f03963687"
+  },
+  "labels": {
+    "T-001": {
+      "label": "Clean the survey data",
+      "plain": "Combine both survey waves into one tidy file with one row per person."
+    },
+    "T-002": {
+      "label": "Describe the sample",
+      "plain": "Summarise who answered the survey, variable by variable."
+    },
+    "T-003": {
+      "label": "Approve the models",
+      "plain": "You confirm the models match what was promised in the pre-registration."
+    },
+    "T-004": {
+      "label": "Set exclusion rule",
+      "plain": "You decide whether inattentive respondents stay in the sample."
+    },
+    "T-005": {
+      "label": "Estimate main models",
+      "plain": "Run the three pre-registered models and record the estimates."
+    },
+    "T-006": {
+      "label": "Chart trust by arm",
+      "plain": "Draw average trust for each group, split by survey wave."
+    },
+    "T-007": {
+      "label": "Draft the paper",
+      "plain": "Write the working paper around the tables and figures."
+    },
+    "T-008": {
+      "label": "Draft the slides",
+      "plain": "Build a short talk that presents the main result."
+    },
+    "T-009": {
+      "label": "Package for replication",
+      "plain": "Bundle code and data so anyone can rebuild every output."
+    },
+    "D-001": {
+      "label": "Analysis dataset",
+      "plain": "The cleaned survey data the analysis runs on."
+    },
+    "D-002": {
+      "label": "Descriptive table",
+      "plain": "Averages and ranges for each background variable."
+    },
+    "D-003": {
+      "label": "Main results table",
+      "plain": "The estimates from the three models."
+    },
+    "D-004": {
+      "label": "Coefficient plot",
+      "plain": "The key estimates drawn as points with error bars."
+    },
+    "D-005": {
+      "label": "Trust by arm chart",
+      "plain": "Average trust in each group, by wave."
+    },
+    "D-006": {
+      "label": "Working paper",
+      "plain": "The written report of the study."
+    },
+    "D-007": {
+      "label": "Conference slides",
+      "plain": "The talk version of the paper."
+    },
+    "D-008": {
+      "label": "Replication package",
+      "plain": "Everything needed to reproduce the results."
+    },
+    "D-009": {
+      "label": "Online appendix",
+      "plain": "Extra tables and the full survey wording."
+    },
+    "RS-001": {
+      "label": "Wave 1 responses",
+      "plain": "Raw answers from the first survey wave."
+    },
+    "RS-002": {
+      "label": "Wave 2 responses",
+      "plain": "Raw answers from the second survey wave."
+    },
+    "RS-003": {
+      "label": "Survey codebook",
+      "plain": "What each survey variable means."
+    },
+    "T-099": {
+      "label": "Unknown task",
+      "plain": "No such task exists."
+    }
+  }
+}
