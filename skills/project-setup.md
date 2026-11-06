@@ -2,7 +2,7 @@
 name: project-setup
 description: Template + setup protocol for scaffolding a new social-science research project (or other research / writing / methodological project) under agentic workflow. Produces canonical folder structure, README, implementation roadmap, asset registry, interaction log, ledger row + per-project stanza, and skill-library wiring.
 audience: public
-version: 0.4
+version: 0.5
 ---
 
 # Project Setup Protocol
@@ -50,7 +50,7 @@ Core rules (apply to every project):
 
 1. **User retains control.** No substantive decision (design, interpretation, final phrasing, model/method choice) is made by an agent without explicit user sign-off.
 2. **One instance, one task.** Start each non-trivial task in a fresh agent instance with a focused plan. Do not accumulate unrelated threads in a single context.
-3. **Never modify files in `inputs/`** (empirical projects) or `background/` source material. These are read-only; derived artifacts go elsewhere.
+3. **`inputs/` only with the user's express approval; `background/` never.** An agent may add files under `inputs/` (empirical projects) only for a named batch (one folder or one job) that the user approved in words. Record the user's words verbatim with the date, `YYYY-MM-DD: "<the user's words>"`, in the batch's provenance `README.txt`, and in the approval field of the asset-registry request where the registry supports one. **Add only:** never overwrite, replace, move or delete an existing `inputs/` file; replacing and deleting are the user's own command, so hand the user the line. Derived artifacts go elsewhere. `background/` source material stays read-only.
 4. **Register every new asset** (draft, figure, table, script, dataset, note) in `asset-registry.csv` with a creator flag (`human` / `agent` / `mixed`) and verification status (`not-verified` / `partially-verified` / `human-verified`). Without native bookkeeping, when the agent authors or substantively edits a text asset, also snapshot its output to `.cowork/snapshots/` and record the `ai_output_hash` (see Asset Registry below).
 5. **Log every non-trivial session** in `interaction-log.csv` with date, input/output summary, and model metadata, plus `initiator`, coarse `task_difficulty`, and any substantive `decisions` surfaced (see Interaction Log below).
 6. **Archive, don't delete.** Move obsolete files to the nearest `archive/` subfolder.
@@ -96,7 +96,7 @@ Project Folder/
 │   ├── data-analysis/
 │   └── archive/
 │
-├── inputs/                        # Raw & cleaned data — READ-ONLY at raw level
+├── inputs/                        # Raw & cleaned data — add-only, with the user's approval (Rule 3)
 │   ├── raw/
 │   ├── clean/
 │   └── archive/
