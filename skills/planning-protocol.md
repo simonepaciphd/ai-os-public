@@ -41,12 +41,6 @@ Keep the stage artifacts separate even if presenting them in one chat. Location:
 
 **Templates.** The governance file templates (`SPEC.md`, `RESOURCES.md`, `PLAN.md` with its task cards, `Plan-Labels.json`) live in `_assets/planning-templates/` and follow `_assets/plan-viewer/FORMAT.md`; `plan_viewer.py --check` enforces them. The sub-protocols point to these files instead of carrying inline copies.
 
-**Plans started before v0.7** keep their folder layout and page path; they may adopt the v0.7 layout at their next re-lock when the user asks, changing their Pages workflow path in the same commit. Look for `Plan-Manifest.md` at the top of `planning/` as well as in `planning/archive/records/` when reading a plan's protocol version.
-
-**Plans started before v0.5** (`Plan-Manifest.md` names `planning-protocol v0.4`) finish under `_archive/planning-protocol-v0.4.md` and its sub-protocol versions in `_archive/` (archived versions are not shipped in this repo), with their existing visuals. Do not migrate their files; `--check` on them reports "non-conforming" as information only.
-
-**Plans started before v0.4** (manifest naming `Goal-Spec.md`, `Technical-Plan.md`, `Execution-Plan.md` or `Spec-Delta-Log.md`) finish under `_archive/planning-protocol-v0.3.md` and its v0.1/v0.2 sub-protocols in `_archive/` (not shipped in this repo). Do not rename their files or insert the new stages.
-
 ## Universal rules
 
 1. **What before how.** Do not name tools, implementation tasks, code structure, staffing, or sequence while Stage 1 is open. Feasibility constraints may be recorded only as constraints on the result. From Stage 2, the spec may carry resource links (which existing assets each deliverable depends on); tool and task choices stay out of it.
@@ -69,7 +63,7 @@ Keep the stage artifacts separate even if presenting them in one chat. Location:
 2. Identify the project root, its project repo (create it per `project-setup.md` Step 5a if the project has none; the first v0.4 plan in an already-registered project creates it), artifact location, authoritative inputs, relevant persona, and requested deadline or resource limits.
 3. When the AI OS exists, run its coordination startup before any write or spawn.
 4. Silently inventory nearby plans, specs, templates, skills, source files, and project ledgers. Summarize only what materially changes the interview.
-5. Create `planning/archive/records/Plan-Manifest.md` (and `planning/archive/README.md`, the path index) with the protocol version (`planning-protocol v0.7`), artifact paths, stage status (`not-started | open | approved | locked | superseded`), plan name, and mode.
+5. Create `planning/archive/records/Plan-Manifest.md` (and `planning/archive/README.md`, the path index) with the protocol version (`planning-protocol v0.8`), artifact paths, stage status (`not-started | open | approved | locked | superseded`), plan name, and mode.
 
 Do not ask the user to repeat facts that can be read safely from local artifacts.
 

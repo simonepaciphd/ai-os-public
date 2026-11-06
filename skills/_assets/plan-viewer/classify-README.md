@@ -8,7 +8,7 @@ Files beside the script:
 |---|---|
 | `classify.py` | the tool |
 | `classifier.json` | the pin and the settings: `model`, `threshold`, `kappa_min`, `endpoint`, `models_endpoint`, `test_set`/`coding` (user-local, may be null), `workers`, `timeout_s`, `retry`, price, estimate factor, `pin_history` |
-| `definition.json` | the approved question texts (verbatim), the definitions, the criteria, the anchors and the version-check probe |
+| `definition.json` | the approved question texts (verbatim), the definitions, the criteria, the anchors and the version-check probe; its `WGP-*` source tags cite the work credited in `{{LIBRARY_ROOT}}/skills/about-governing-principles.md` |
 | `tests/classify/run_classify_tests.py` | tests against a local mock Jev server |
 
 ## Usage

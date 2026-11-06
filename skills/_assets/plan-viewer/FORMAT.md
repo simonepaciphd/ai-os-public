@@ -240,7 +240,7 @@ state explain filtering; missing statuses direct the reader to Full view.
 - Both views use the same wave axis.
 - **Phases view (1.2.0)**, shown only when `phases` is non-empty; it is then the first button and the default view (key `planviewer.view.v2`, so a Map/Timeline choice remembered by an older page does not hide it). One card per phase, in `phases` order: name, `plain`, wave span (first start to last end of its tasks, as `W3–W9` with targets), a position bar over the whole wave axis with the same span in text for screen readers, steps done (when statuses exist), "decisions for you" (researcher-lane tasks), and the results its tasks deliver. A disclosure button (`aria-expanded`) lists the phase's tasks in start order; each opens the usual task dialog. The view is a vertical list with no horizontal scroll at any width. The Current tasks scope applies: counts and lists use visible tasks, spans stay those of all tasks, and phases with no visible task are hidden. Tasks whose `ph` names no phase fall into a final "Other" card.
 - The task dialog shows the task's phase name when it has one.
-- Researcher-lane tasks: Cardinal outline plus "You approve" (`Gate-mode: approve`) or "You decide" (`decide`).
+- Researcher-lane tasks: accent-colour outline plus "You approve" (`Gate-mode: approve`) or "You decide" (`decide`).
 - Critical-path edges are heavier ink; soft edges are dashed.
 - "What you'll get" column and band.
 - A `<dialog>` for every task and deliverable: focus trapped, Esc closes, focus returns to the opener.

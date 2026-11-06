@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Skills: `project-setup` 0.5 Rule 3: an agent may add files under `inputs/`
+  for a named batch the user approved in words, with the approval quoted and
+  dated in the batch's provenance `README.txt`; add only, never overwrite,
+  replace, move or delete. `background/` stays read-only.
+- Planning fixes: `planning-protocol` drops the rules for plans started under
+  unshipped earlier versions and records `planning-protocol v0.8` in new plan
+  manifests; `FORMAT.md` names the gate outline the accent colour;
+  `classify-README.md` says where the `WGP-*` source tags are credited.
+- Rebuild `site/ai-os-install-kit.zip` from the updated files.
+
 - Skills: first public release of the planning family. `planning-protocol` 0.8
   coordinates `planning-output-specification` 0.3, `planning-resource-map` 0.3,
   `planning-implementation-map` 0.4, `planning-adversarial-review` 0.2,
