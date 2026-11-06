@@ -1,0 +1,40 @@
+# Deploy the plan viewer (planning/page/Plan-Visual.html) to GitHub Pages.
+# The Pages site is public even though the repo is private.
+# Template from skills/_assets/planning-templates/pages.yml (planning-protocol v0.7);
+# copy to .github/workflows/pages.yml. The user enables Pages once:
+#   gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow
+name: Deploy plan viewer
+
+on:
+  push:
+    paths: [planning/page/Plan-Visual.html, .github/workflows/pages.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage site
+        run: |
+          mkdir _site
+          cp planning/page/Plan-Visual.html _site/index.html
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

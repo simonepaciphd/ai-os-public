@@ -18,6 +18,15 @@ You make every research choice.
 [Browse the folder](https://github.com/simonepaciphd/polisci290-capstone/tree/main/research-planning)
 or [download the zip](https://simonepaciphd.github.io/polisci290-capstone/research-planning.zip).
 
+The full planning family ships in `skills/`: [`planning-protocol.md`](skills/planning-protocol.md)
+coordinates eight stage protocols (`planning-*-protocol.md`) from output
+specification through resource map, task map, adversarial review, adjudication,
+baseline lock and spec reconciliation. The plan-viewer tool in
+[`skills/_assets/plan-viewer/`](skills/_assets/plan-viewer/README.md) lints a
+project's `planning/` folder and builds a self-contained plan page (Python 3,
+standard library only); the governance file templates are in
+`skills/_assets/planning-templates/`.
+
 ## Native bookkeeping installation
 
 Already have a project folder? After installing native bookkeeping, say
@@ -40,6 +49,7 @@ Pick the tool you use. Each guide is a step-by-step walkthrough that does not as
 ## What's in the repo
 
 - `skills/` — protocol skills (`*.md`), the building blocks the personas reach for.
+- `skills/_assets/` — supporting files for individual skills (currently: the plan viewer and the planning templates).
 - `personas/` — five session-level agent personas (table below).
 - `agents/` — installable subagents (currently: `librarian`).
 - `CLAUDE.md` — tier-level orientation, audience contract, placeholder vocabulary.

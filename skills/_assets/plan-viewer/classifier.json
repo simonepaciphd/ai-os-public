@@ -1,0 +1,18 @@
+{
+  "format": "plan-viewer-classifier-v1",
+  "model": "jev-1.14.0",
+  "threshold": 0.5,
+  "kappa_min": 0.6,
+  "validated": false,
+  "validation_note": "Set true only after a --kappa run passes kappa_min and the owner signs off. Two validation runs in the source library failed (substantive kappa 0.415, 0.396).",
+  "endpoint": "https://api.typesafe.ai/v1/systemone",
+  "models_endpoint": "https://api.typesafe.ai/v1/models",
+  "test_set": null,
+  "coding": null,
+  "workers": 8,
+  "timeout_s": 60,
+  "retry": {"max_retries": 4, "base_delay_s": 0.5, "max_delay_s": 15, "jitter": 0.25},
+  "price_usd_per_million_input_tokens": 0.042,
+  "estimate_tokens_per_char": 0.25,
+  "pin_history": []
+}
